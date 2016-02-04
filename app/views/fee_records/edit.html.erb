@@ -1,0 +1,25 @@
+<%= form_for  @record, url: fee_fee_record_path(@record.fee_id, @record.id) do |f| %>
+    <% if @record.errors.any? %>
+        <div id="error_explanation">
+          <h2>更新数据出现问题</h2>
+
+          <ul>
+            <% @record.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+    <div class="field">
+      <%= f.label '收入' %><br>
+      <%= f.text_field :credit %>
+    </div>
+    <div class="field">
+      <%= f.label '支出' %><br>
+      <%= f.text_field :debit %>
+    </div>
+    <div class="actions">
+      <%= f.submit '保存'%>
+    </div>
+<% end %>

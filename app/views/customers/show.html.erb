@@ -1,0 +1,101 @@
+<% content_for :title, '流水信息' %>
+<div class="row">
+  <div class="col-xs-9">
+    <%= link_to '返回列表', customers_path, class: 'btn btn-primary' %>
+  </div>
+  <div class="col-xs-2">
+    <%= link_to '编辑客户信息', edit_customer_path %>
+  </div>
+  <div class="col-xs-1">
+    <%= link_to '删除客户', customer_path, method: :delete, data: {confirm: '确定删除客户吗？将清除所有的信息'} %>
+  </div>
+</div>
+<p id="notice"><%= notice %></p>
+
+
+<table class="table table-responsive table-striped table-hover table-condensed table-bordered ">
+  <thead>
+  <tr>
+    <th>客户</th>
+    <th>应收</th>
+    <th>已收</th>
+    <th class=" hidden-xs hidden-sm">坏账</th>
+    <th>未收</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr >
+
+    <td class="head_sum"><%= @customer.cname %></td>
+    <td class="head_sum"><%= @debit_sum %></td>
+    <td class="head_sum"><%= @credit_sum %></td>
+    <td class="head_sum hidden-xs hidden-sm"><%= @bad_sum %></td>
+    <% if @remain_sum<0 %>
+        <td class="head_sum" style="color:red"><%= @remain_sum %></td>
+    <% else %>
+        <td class="head_sum"><%= @remain_sum %></td>
+    <% end %>
+
+  </tr>
+
+  </tbody>
+</table>
+
+<table class="table table-responsive table-striped table-hover table-condensed table-bordered ">
+  <thead>
+  <tr>
+    <th>日期</th>
+    <th>应收</th>
+    <th>已收</th>
+    <th class=" hidden-xs hidden-sm">坏账</th>
+    <th>未收</th>
+    <th colspan="2"></th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @records.each do |record|
+    remain= record.credit.to_f - record.debit.to_f + record.bad.to_f
+  %>
+      <tr>
+        <td class="numeric"><%= record.created_at.strftime("%Y/%m/%d") %></td>
+        <td class="numeric"><%= record.debit %></td>
+        <td class="numeric"><%= record.credit %></td>
+        <td class="numeric hidden-xs hidden-sm"><%= record.bad %></td>
+        <% if remain<0 %>
+            <td class="numeric" style="color:red"><%= remain %></td>
+        <% else %>
+            <td class="numeric"><%= remain %></td>
+        <% end %>
+
+        <td><%= link_to '编辑', edit_customer_record_path(record.customer_id, record) %></td>
+        <td><%= link_to '删除', customer_record_path(record.customer, record), method: :delete, data: {confirm: '确定删除吗？'} %></td>
+      </tr>
+  <% end %>
+  <tr>
+    <%= form_for([@customer, @customer.records.build]) do |f| %>
+
+        <td class="numeric">
+          <%= Time.now.strftime('%Y/%m/%d') %>
+        </td>
+        <td class="numeric">
+          <%= f.text_field :debit, size: '5', value:0, onfocus: "if(this.value == '0') { this.value = ''; }" %>
+        </td>
+        <td class="numeric">
+          <%= f.text_field :credit, size: '5', value:0,onfocus: "if(this.value == '0') { this.value = ''; }" %>
+        </td>
+        <td class="numeric hidden-xs hidden-sm">
+          <%= f.text_field :bad, size: '5' , value:0, onfocus: "if(this.value == '0') { this.value = ''; }"%>
+        </td>
+        <td></td>
+        <td colspan="2"> <%= f.submit '保存新记录', class: 'btn btn-primary btn-sm' %></td>
+
+    <% end %>
+  </tr>
+
+  </tbody>
+</table>
+
+
+
+

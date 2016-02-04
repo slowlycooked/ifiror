@@ -1,0 +1,50 @@
+<p id="notice"><%= notice %></p>
+<br>
+<% content_for :title, '费项列表' %>
+<%= link_to '返回主页', root_path,  class: 'btn btn-primary'  %>
+
+<%= link_to '新建费项', new_fee_path,  class: 'btn btn-primary'  %>
+
+<br>
+<br>
+
+<table class="table table-responsive table-striped table-hover table-condensed table-bordered ">
+  <thead>
+  <tr>
+    <th>收入</th>
+    <th>支出</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td class="head_sum"><%= @credit_sum %></td>
+    <td class="head_sum"><%= @debit_sum %></td>
+  </tr>
+  </tbody>
+</table>
+
+<table class="table table-responsive table-striped table-hover table-condensed table-bordered ">
+  <thead>
+  <tr>
+    <th>费项</th>
+    <th>收入</th>
+    <th>支出</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <%
+     @fees.each do |rec|
+       de = rec.fee_records.sum('debit')
+       cr = rec.fee_records.sum('credit')
+  %>
+      <tr>
+        <td><%= link_to rec.fee_name , fee_path(rec.id) %></td>
+        <td class="numeric"><%= cr %></td>
+        <td class="numeric"><%= de %></td>
+      </tr>
+  <% end %>
+
+  </tbody>
+</table>
+
