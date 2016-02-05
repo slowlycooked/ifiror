@@ -8,8 +8,7 @@ default: &default
   adapter: mysql2
   pool: 3306
   host: localhost
-  username: root
-  password: root
+  username: martin
 
 development:
   <<: *default
@@ -23,5 +22,9 @@ test:
   database: ifiror_qas
 
 production:
-  <<: *default
-  database: ifiror_prd
+    database: ifiror_prd
+    adapter: mysql2
+    pool: 3306
+    host: localhost
+    username: martin
+    password: Cy66y2dLx4wa6KLS
