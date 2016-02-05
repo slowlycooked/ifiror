@@ -15,13 +15,16 @@ class CustomersController < ApplicationController
   def create
     #render plain: params[:customer].inspect
     @customer = Customer.new(customer_params)
-    if  @customer.save
-      format.html { redirect_to @customer, notice: '费项创建成功.' }
-      #format.json { render :show, status: :created, location: @customer }
-    else
-      format.html { render :new }
-      #format.json { render json: @customer.errors, status: :unprocessable_entity }
+    respond_to do |format|
+      if @customer.save
+        format.html { redirect_to @customer, notice: '客户创建成功.' }
+        #format.json { render :show, status: :created, location: @customer }
+      else
+        format.html { render :new }
+        #format.json { render json: @customer.errors, status: :unprocessable_entity }
+      end
     end
+
 
   end
 
@@ -45,7 +48,7 @@ class CustomersController < ApplicationController
     @debit_sum = @customer.records.sum("debit")
     @credit_sum = @customer.records.sum("credit")
     @bad_sum = @customer.records.sum("bad")
-    @remain_sum =  @credit_sum - @debit_sum + @bad_sum
+    @remain_sum = @credit_sum - @debit_sum + @bad_sum
 
   end
 
@@ -54,7 +57,6 @@ class CustomersController < ApplicationController
     @customer.destroy
     redirect_to customers_path
   end
-
 
 
   private
