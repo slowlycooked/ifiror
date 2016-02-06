@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require bootstrap-sprockets
+//= require bootstrap-datepicker
 
 
 
@@ -24,4 +25,6 @@
 
 // last thing to be added
 //= require_tree .
+
+
 

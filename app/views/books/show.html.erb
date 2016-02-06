@@ -1,5 +1,4 @@
 <% content_for :title, @book.book_name %>
-<%= link_to '删除账本', book_path, method: :delete, data: {confirm: '确定删除吗？将清除该账本所有信息！！'} %>
 
 
 
@@ -12,18 +11,21 @@
 
 <br>
 <br>
-
-<table class="table table-responsive table-striped table-hover table-condensed table-bordered ">
+<div id="no-more-tables">
+<table class="table table-responsive table-striped table-hover table-condensed table-bordered " style="border: 2px solid orange">
   <thead>
   <tr>
-    <th>收入</th>
-    <th>支出</th>
+    <th>总收入</th>
+    <th>总支出</th>
+    <th>总余额</th>
+
   </tr>
   </thead>
   <tbody>
   <tr>
-    <td class="head_sum"><%= @credit_sum %></td>
-    <td class="head_sum"><%= @debit_sum %></td>
+    <td class="head_sum" data-title="总收入"><%= @credit_sum %></td>
+    <td class="head_sum" data-title="总支出"><%= @debit_sum %></td>
+    <td class="head_sum" data-title="总支出"><%= @credit_sum - @debit_sum %></td>
   </tr>
   </tbody>
 </table>
@@ -44,14 +46,17 @@
        cr = rec.fee_records.sum('credit')
   %>
       <tr>
-        <td><%= link_to rec.fee_name , book_fee_path(rec.book_id,rec.id) %></td>
-        <td class="numeric"><%= cr %></td>
-        <td class="numeric"><%= de %></td>
+        <td data-title="费项"><%= link_to rec.fee_name , book_fee_path(rec.book_id,rec.id) %></td>
+        <td class="numeric" data-title="收入"><%= cr %></td>
+        <td class="numeric" data-title="支出"><%= de %></td>
       </tr>
   <% end %>
 
   </tbody>
 </table>
+    </div>
+<%= link_to '删除账本', book_path, method: :delete, data: {confirm: '确定删除吗？将清除该账本所有信息！！'} %>
+
 
 
 

@@ -9,14 +9,16 @@ class BooksController < ApplicationController
 
   end
 
-  # GET /fees/1
-  # GET /fees/1.json
-  def show
-    @book = Book.find(params[:id])
-    @fees = @book.fees
-    @debit_sum = @book.fee_records.sum('debit')
-    @credit_sum = @book.fee_records.sum('credit')
 
+  def show
+    if Book.find_by_id(params[:id])
+      @book = Book.find(params[:id])
+      @fees = @book.fees
+      @debit_sum = @book.fee_records.sum('debit')
+      @credit_sum = @book.fee_records.sum('credit')
+    else
+      redirect_to root_path
+    end
   end
 
   # GET /fees/new
@@ -63,6 +65,7 @@ class BooksController < ApplicationController
   # DELETE /fees/1
   # DELETE /fees/1.json
   def destroy
+
     @book.destroy
     respond_to do |format|
       format.html { redirect_to root_url, notice: '账本删除成功.' }
@@ -73,7 +76,13 @@ class BooksController < ApplicationController
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_book
-    @book = Book.find(params[:id])
+    if Book.find_by_id(params[:id])
+     @book = Book.find(params[:id])
+    else
+      redirect_to root_path
+    end
+
+
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

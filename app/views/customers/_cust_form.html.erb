@@ -1,4 +1,3 @@
-<div id="main-container" class="container-fluid" >
 
   <%= form_for(@customer, html: {class: 'form-horizontal'}) do |f| %>
 
@@ -14,23 +13,21 @@
       <% end %>
 
       <div class="field form-group">
-        <%= f.label '客户名称', class: 'col-xs-1 control-label' %>
-        <div class="col-xs-4">
+        <%= f.label '客户名称', class: 'col-xs-4 control-label' %>
+        <div class="col-xs-6">
           <%= f.text_field :cname, class: 'form-control' %>
         </div>
       </div>
       <div class="field form-group">
-        <%= f.label '电话号码', class: 'col-xs-1 control-label' %>
-        <div class="col-xs-4">
+        <%= f.label '电话号码', class: 'col-xs-4 control-label' %>
+        <div class="col-xs-6">
           <%= f.text_field :phone_no, class: 'form-control' %>
         </div>
       </div>
       <div class="actions form-group">
-        <div class="col-xs-offset-1 col-xs-10">
+        <div class="col-xs-6">
           <%= f.submit '保存', class:'btn btn-primary' %>
-        </div>
+          </div>
       </div>
   <% end %>
 
-
-</div>

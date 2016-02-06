@@ -29,32 +29,46 @@ class CustomersController < ApplicationController
   end
 
   def edit
-    @customer = Customer.find(params[:id])
+    if Customer.find_by_id(params[:id])
+      @customer = Customer.find(params[:id])
+    else
+      redirect_to customers_path
+    end
   end
 
   def update
-    @customer = Customer.find(params[:id])
+    if Customer.find_by_id(params[:id])
+      @customer = Customer.find(params[:id])
 
-    if @customer.update(customer_params)
-      redirect_to @customer
+      if @customer.update(customer_params)
+        redirect_to @customer
+      else
+        render 'edit'
+      end
     else
-      render 'edit'
+      redirect_to customers_path
     end
   end
 
   def show
-    @customer = Customer.find(params[:id])
-    @records = @customer.records
-    @debit_sum = @customer.records.sum("debit")
-    @credit_sum = @customer.records.sum("credit")
-    @bad_sum = @customer.records.sum("bad")
-    @remain_sum = @credit_sum - @debit_sum + @bad_sum
-
+    if Customer.find_by_id(params[:id])
+      @customer = Customer.find(params[:id])
+      @records = @customer.records
+      @debit_sum = @customer.records.sum("debit")
+      @credit_sum = @customer.records.sum("credit")
+      @bad_sum = @customer.records.sum("bad")
+      @remain_sum = @credit_sum - @debit_sum + @bad_sum
+    else
+      redirect_to customers_path
+    end
   end
 
   def destroy
-    @customer = Customer.find(params[:id])
-    @customer.destroy
+    if Customer.find_by_id(params[:id])
+      @customer = Customer.find(params[:id])
+      @customer.destroy
+    end
+
     redirect_to customers_path
   end
 

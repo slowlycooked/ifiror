@@ -53,3 +53,5 @@ group :development do
 end
 
 gem "passenger"
+
+gem 'bootstrap-datepicker-rails'
