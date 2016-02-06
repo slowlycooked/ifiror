@@ -8,15 +8,14 @@ Rails.application.routes.draw do
   root 'welcome#index'
 
 
-
-
   resources :customers do
     resources :records
   end
 
-
-  resources :fees do
-    resources :fee_records
+  resources :books do
+    resources :fees do
+      resources :fee_records
+    end
   end
 
   # Example of regular route:

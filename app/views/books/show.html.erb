@@ -1,9 +1,14 @@
+<% content_for :title, @book.book_name %>
+<%= link_to '删除账本', book_path, method: :delete, data: {confirm: '确定删除吗？将清除该账本所有信息！！'} %>
+
+
+
 <p id="notice"><%= notice %></p>
 <br>
-<% content_for :title, '费项列表' %>
+
 <%= link_to '返回主页', root_path,  class: 'btn btn-primary'  %>
 
-<%= link_to '新建费项', new_book_fee_path,  class: 'btn btn-primary'  %>
+<%= link_to '新建费项', new_book_fee_path(@book),  class: 'btn btn-primary'  %>
 
 <br>
 <br>
@@ -39,7 +44,7 @@
        cr = rec.fee_records.sum('credit')
   %>
       <tr>
-        <td><%= link_to rec.fee_name , fee_path(rec.id) %></td>
+        <td><%= link_to rec.fee_name , book_fee_path(rec.book_id,rec.id) %></td>
         <td class="numeric"><%= cr %></td>
         <td class="numeric"><%= de %></td>
       </tr>
@@ -47,4 +52,6 @@
 
   </tbody>
 </table>
+
+
 

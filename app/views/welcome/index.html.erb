@@ -1,8 +1,22 @@
-<div class="row">
-  <div class="col-xs-6">
-<%= link_to '客户流水账', customers_path, class: 'btn btn-primary'  %>
-  </div>
-  <div class="col-xs-6">
-<%= link_to '收支流水账', fees_path , class: 'btn btn-primary' %>
-  </div>
+<p id="notice"><%= notice %></p>
+<div class="masthead" style="font-size: 30px">
+  <h2 class="text-muted">维尔康财务</h2>
+  <nav>
+    <ul class="nav nav-justified">
+      <li>
+        <%= link_to '客户应收应付', customers_path %>
+      </li>
+      <% @books.each do |b| %>
+          <li >
+            <%= link_to b.book_name, book_path(b) %>
+          </li>
+      <% end %>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">管理菜单 <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li> <%= link_to '新收支账本', new_book_path %></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
 </div>

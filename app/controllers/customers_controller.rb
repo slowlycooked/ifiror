@@ -1,6 +1,6 @@
 class CustomersController < ApplicationController
   def index
-    @customers = Customer.all.joins('LEFT OUTER JOIN records on customers.id = records.customer_id').order('records.updated_at DESC')
+    @customers = Customer.all.joins('LEFT OUTER JOIN records on customers.id = records.customer_id').order('records.updated_at DESC').uniq
 
     @debit_sum = Record.sum('debit')
     @credit_sum = Record.sum('credit')

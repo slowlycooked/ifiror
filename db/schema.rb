@@ -13,6 +13,12 @@
 
 ActiveRecord::Schema.define(version: 20160204060600) do
 
+  create_table "books", force: :cascade do |t|
+    t.string   "book_name",  limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
   create_table "customers", force: :cascade do |t|
     t.string   "cname",      limit: 255, null: false
     t.string   "phone_no",   limit: 255
@@ -32,13 +38,15 @@ ActiveRecord::Schema.define(version: 20160204060600) do
 
   create_table "fees", force: :cascade do |t|
     t.string   "fee_name",   limit: 255
+    t.integer  "book_id",    limit: 4
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
   end
 
+  add_index "fees", ["book_id"], name: "index_fees_on_book_id", using: :btree
+
   create_table "records", force: :cascade do |t|
     t.integer  "customer_id", limit: 4
-    t.integer  "book_id",     limit: 4
     t.float    "debit",       limit: 24
     t.float    "credit",      limit: 24
     t.float    "bad",         limit: 24
@@ -49,5 +57,6 @@ ActiveRecord::Schema.define(version: 20160204060600) do
   add_index "records", ["customer_id"], name: "index_records_on_customer_id", using: :btree
 
   add_foreign_key "fee_records", "fees"
+  add_foreign_key "fees", "books"
   add_foreign_key "records", "customers"
 end

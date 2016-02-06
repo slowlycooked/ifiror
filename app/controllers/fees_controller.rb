@@ -3,16 +3,21 @@ class FeesController < ApplicationController
 
   # GET /fees
   # GET /fees.json
+=begin
   def index
     @fees = Fee.all
+    @book = Book.find(params[:book_id])
+    @fee = Fee.find(params[:id])
     @debit_sum = FeeRecord.sum('debit')
     @credit_sum = FeeRecord.sum('credit')
   end
+=end
 
   # GET /fees/1
   # GET /fees/1.json
   def show
-    @fee = Fee.find(params[:id])
+    @book = Book.find(params[:book_id])
+    @fee = @book.fees.find(params[:id])
     @records = @fee.fee_records
     @debit_sum = @records.sum("debit")
     @credit_sum =@records.sum("credit")
@@ -21,28 +26,28 @@ class FeesController < ApplicationController
 
   # GET /fees/new
   def new
+    @book = Book.find(params[:book_id])
     @fee = Fee.new
   end
 
   # GET /fees/1/edit
   def edit
-    @fee = Fee.find(params[:id])
+    @book = Book.find(params[:book_id])
+    @fee = @book.fees.find(params[:id])
+
   end
 
-  # POST /fees
-  # POST /fees.json
   def create
-    @fee = Fee.new(fee_params)
+    @book = Book.find(params[:book_id])
+    @fee =  @book.fees.create(fee_params)
 
-    respond_to do |format|
       if @fee.save
-        format.html { redirect_to @fee, notice: '费项创建成功.' }
-        format.json { render :show, status: :created, location: @fee }
+        redirect_to book_path(@book)
+
       else
-        format.html { render :new }
-        format.json { render json: @fee.errors, status: :unprocessable_entity }
+        render :new
+
       end
-    end
   end
 
   # PATCH/PUT /fees/1
@@ -50,7 +55,7 @@ class FeesController < ApplicationController
   def update
     respond_to do |format|
       if @fee.update(fee_params)
-        format.html { redirect_to @fee, notice: '费项更新成功.' }
+        format.html { redirect_to book_fee_path(@book,@fee), notice: '费项更新成功.' }
         format.json { render :show, status: :ok, location: @fee }
       else
         format.html { render :edit }
@@ -62,17 +67,16 @@ class FeesController < ApplicationController
   # DELETE /fees/1
   # DELETE /fees/1.json
   def destroy
+    book_id = @fee.book_id
     @fee.destroy
-    respond_to do |format|
-      format.html { redirect_to fees_url, notice: '费项删除成.' }
-      format.json { head :no_content }
-    end
+    redirect_to  book_path(book_id)
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_fee
-      @fee = Fee.find(params[:id])
+      @book = Book.find(params[:book_id])
+      @fee = @book.fees.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

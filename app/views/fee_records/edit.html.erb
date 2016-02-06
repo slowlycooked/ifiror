@@ -1,4 +1,4 @@
-<%= form_for  @record, url: fee_fee_record_path(@record.fee_id, @record.id) do |f| %>
+<%= form_for  @record, url: book_fee_fee_record_path(@fee.book_id, @record.fee_id, @record.id) do |f| %>
     <% if @record.errors.any? %>
         <div id="error_explanation">
           <h2>更新数据出现问题</h2>

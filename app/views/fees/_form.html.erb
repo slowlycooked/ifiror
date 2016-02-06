@@ -1,15 +1,5 @@
-<%= form_for(@fee) do |f| %>
-  <% if @fee.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@fee.errors.count, "error") %> prohibited this fee from being saved:</h2>
+<%= form_for([@book, @fee]) do |f| %>
 
-      <ul>
-      <% @fee.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
 
   <div class="field">
     <%= f.label '费项名称' %><br>
@@ -17,6 +7,5 @@
   </div>
   <div class="actions">
     <%= f.submit '保存', class:'btn btn-primary' %>
-    <%= link_to '返回', fees_path(@fee),  class: 'btn btn-primary'  %>
   </div>
 <% end %>

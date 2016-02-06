@@ -1,17 +1,23 @@
 <% content_for :title, '费项明细' %>
+<p>
+  <strong>账本名称:</strong>
+  <%= @book.book_name %>
+</p>
+
 <p id="notice"><%= notice %></p>
 
 <div class="row">
   <div class="col-xs-9">
-    <%= link_to '返回费项列表', fees_path, class: 'btn btn-primary' %>
+    <%= link_to '返回费项列表', book_path(@book), class: 'btn btn-primary' %>
   </div>
   <div class="col-xs-2">
-    <%= link_to '编辑费项信息', edit_fee_path(@fee) %>
+    <%= link_to '编辑费项信息', edit_book_fee_path(@book,@fee) %>
   </div>
   <div class="col-xs-1">
-    <%= link_to '删除费项', fee_path, method: :delete, data: {confirm: '确定删除费项吗？将清除该费项所有信息！！'} %>
+    <%= link_to '删除费项', book_fee_path, method: :delete, data: {confirm: '确定删除费项吗？将清除该费项所有信息！！'} %>
   </div>
 </div>
+
 
 <br>
 
@@ -51,12 +57,12 @@
         <td class="numeric"><%= record.created_at.strftime("%Y/%m/%d") %></td>
         <td class="numeric"><%= record.credit %></td>
         <td class="numeric"><%= record.debit %></td>
-        <td><%= link_to '编辑', edit_fee_fee_record_path(record.fee_id, record) %></td>
-        <td><%= link_to '删除', fee_fee_record_path(record.fee_id, record), method: :delete, data: {confirm: '确定删除吗？'} %></td>
+        <td><%= link_to '编辑', edit_book_fee_fee_record_path(@book.id, record.fee_id, record) %></td>
+        <td><%= link_to '删除', book_fee_fee_record_path(@book.id, record.fee_id, record), method: :delete, data: {confirm: '确定删除吗？'} %></td>
       </tr>
   <% end %>
   <tr>
-    <%= form_for([@fee, @fee.fee_records.build]) do |f| %>
+    <%= form_for([@book, @fee, @fee.fee_records.build]) do |f| %>
 
         <td class="numeric">
           <%= Time.now.strftime('%Y/%m/%d') %>
