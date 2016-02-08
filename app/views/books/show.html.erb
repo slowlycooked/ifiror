@@ -1,8 +1,5 @@
 <% content_for :title, @book.book_name %>
 
-
-
-<p id="notice"><%= notice %></p>
 <br>
 
 <%= link_to '返回主页', root_path,  class: 'btn btn-primary'  %>
@@ -11,7 +8,6 @@
 
 <br>
 <br>
-<div id="no-more-tables">
 <table class="table table-responsive table-striped table-hover table-condensed table-bordered " style="border: 2px solid orange">
   <thead>
   <tr>
@@ -54,7 +50,6 @@
 
   </tbody>
 </table>
-    </div>
 <%= link_to '删除账本', book_path, method: :delete, data: {confirm: '确定删除吗？将清除该账本所有信息！！'} %>
 
 

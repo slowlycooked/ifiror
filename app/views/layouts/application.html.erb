@@ -3,7 +3,7 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><%= yield(:title) %></title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 
@@ -14,10 +14,14 @@
 <% else %>
     <body data-no-turbolink="false">
 <% end %>
-
-<div id="main-container" class="container" >
+<div id="main-container" class="container">
+  <% if tenant_signed_in? %>
+      <%= link_to('登出', destroy_tenant_session_path, :method => :delete, :class => 'btn btn-primary') %>
+  <% end %>
   <h2><%= yield(:title) %></h2>
-<%= yield %>
+  <%= notice %>
+  <%= alert %><br>
+  <%= yield %>
 </div>
 </body>
 </html>

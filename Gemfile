@@ -55,3 +55,5 @@ end
 gem "passenger"
 
 gem 'bootstrap-datepicker-rails'
+
+gem 'devise'
