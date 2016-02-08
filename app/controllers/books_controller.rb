@@ -12,7 +12,7 @@ class BooksController < ApplicationController
 
   def show
     if Book.find_by_id(params[:id])
-      @book = Book.find(params[:id]).where(tenant_id: current_tenant.id)
+      @book = Book.find_by_id(params[:id])
       @fees = @book.fees
       @debit_sum = @book.fee_records.sum('debit')
       @credit_sum = @book.fee_records.sum('credit')
