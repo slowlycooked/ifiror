@@ -1,18 +1,18 @@
 class BooksController < ApplicationController
   before_action :set_book, only: [:show, :edit, :update, :destroy]
 
+
   # GET /fees
   # GET /fees.json
   def index
-    @book = Book.all
-
+    @book = Book.all.where(tenant_id: current_tenant.id)
 
   end
 
 
   def show
     if Book.find_by_id(params[:id])
-      @book = Book.find(params[:id])
+      @book = Book.find(params[:id]).where(tenant_id: current_tenant.id)
       @fees = @book.fees
       @debit_sum = @book.fee_records.sum('debit')
       @credit_sum = @book.fee_records.sum('credit')
@@ -24,6 +24,7 @@ class BooksController < ApplicationController
   # GET /fees/new
   def new
     @book = Book.new
+
   end
 
   # GET /fees/1/edit
@@ -35,7 +36,8 @@ class BooksController < ApplicationController
   # POST /fees
   # POST /fees.json
   def create
-    @book = Book.new(book_params)
+    @book = Book.new(book_params )
+    @book.tenant_id = current_tenant.id
 
     respond_to do |format|
       if @book.save

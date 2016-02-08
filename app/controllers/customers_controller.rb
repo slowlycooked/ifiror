@@ -1,10 +1,11 @@
 class CustomersController < ApplicationController
   def index
-    @customers = Customer.all.joins('LEFT OUTER JOIN records on customers.id = records.customer_id').order('records.updated_at DESC').uniq
-
-    @debit_sum = Record.sum('debit')
-    @credit_sum = Record.sum('credit')
-    @bad_sum = Record.sum('bad')
+    @customers = Customer.all.joins('LEFT OUTER JOIN records on customers.id = records.customer_id').
+        where(tenant_id: current_tenant.id).
+        order('records.updated_at DESC').uniq
+    @debit_sum = @customers.sum('debit')
+    @credit_sum = @customers.sum('credit')
+    @bad_sum = @customers.sum('bad')
 
   end
 
@@ -15,6 +16,7 @@ class CustomersController < ApplicationController
   def create
     #render plain: params[:customer].inspect
     @customer = Customer.new(customer_params)
+    @customer.tenant_id = current_tenant.id
     respond_to do |format|
       if @customer.save
         format.html { redirect_to @customer, notice: '客户创建成功.' }
