@@ -1,8 +1,12 @@
 class CustomersController < ApplicationController
+
   def index
-    @customers = Customer.all.joins('LEFT OUTER JOIN records on customers.id = records.customer_id').
-        where(tenant_id: current_tenant.id).
-        order('records.updated_at DESC').uniq
+    @customers = Customer
+        .joins('LEFT OUTER JOIN records on customers.id = records.customer_id
+            and left(records.updated_at,4) = ', session[:current_year])
+        .where('customers.tenant_id= ? ', current_tenant.id)
+                     .order('records.updated_at DESC').uniq
+
     @debit_sum = @customers.sum('debit')
     @credit_sum = @customers.sum('credit')
     @bad_sum = @customers.sum('bad')
@@ -53,12 +57,13 @@ class CustomersController < ApplicationController
   end
 
   def show
+
     if Customer.find_by_id(params[:id])
       @customer = Customer.find(params[:id])
-      @records = @customer.records
-      @debit_sum = @customer.records.sum("debit")
-      @credit_sum = @customer.records.sum("credit")
-      @bad_sum = @customer.records.sum("bad")
+      @records = @customer.records.where('left(updated_at,4) =?', session[:current_year])
+      @debit_sum = @records.sum("debit")
+      @credit_sum = @records.sum("credit")
+      @bad_sum = @records.sum("bad")
       @remain_sum = @credit_sum - @debit_sum + @bad_sum
     else
       redirect_to customers_path

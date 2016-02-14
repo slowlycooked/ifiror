@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'welcome#index'
 
+  post 'welcome', to: 'welcome#set_current_year'
 
   resources :customers do
     resources :records

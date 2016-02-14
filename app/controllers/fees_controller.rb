@@ -18,7 +18,7 @@ class FeesController < ApplicationController
   def show
     @book = Book.find(params[:book_id])
     @fee = @book.fees.find(params[:id])
-    @records = @fee.fee_records
+    @records = @fee.fee_records.where('left(fee_records.updated_at,4) =?', session[:current_year])
     @debit_sum = @records.sum("debit")
     @credit_sum =@records.sum("credit")
 

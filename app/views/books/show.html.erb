@@ -38,8 +38,8 @@
   <tbody>
   <%
      @fees.each do |rec|
-       de = rec.fee_records.sum('debit')
-       cr = rec.fee_records.sum('credit')
+       de = rec.fee_records.where('left(fee_records.updated_at,4) =?', session[:current_year]).sum('debit')
+       cr = rec.fee_records.where('left(fee_records.updated_at,4) =?', session[:current_year]).sum('credit')
   %>
       <tr>
         <td data-title="费项"><%= link_to rec.fee_name , book_fee_path(rec.book_id,rec.id) %></td>
@@ -50,6 +50,7 @@
 
   </tbody>
 </table>
+<br><br>
 <%= link_to '删除账本', book_path, method: :delete, data: {confirm: '确定删除吗？将清除该账本所有信息！！'} %>
 
 

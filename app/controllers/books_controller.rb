@@ -5,8 +5,8 @@ class BooksController < ApplicationController
   # GET /fees
   # GET /fees.json
   def index
-    @book = Book.all.where(tenant_id: current_tenant.id)
-
+    #@book = Book.all.where(tenant_id: current_tenant.id)
+    redirect_to root_path
   end
 
 
@@ -14,8 +14,8 @@ class BooksController < ApplicationController
     if Book.find_by_id(params[:id])
       @book = Book.find_by_id(params[:id])
       @fees = @book.fees
-      @debit_sum = @book.fee_records.sum('debit')
-      @credit_sum = @book.fee_records.sum('credit')
+      @debit_sum = @book.fee_records.where('left(fee_records.updated_at,4) =?', session[:current_year]).sum('debit')
+      @credit_sum = @book.fee_records.where('left(fee_records.updated_at,4) =?', session[:current_year]).sum('credit')
     else
       redirect_to root_path
     end

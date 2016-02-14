@@ -33,7 +33,7 @@ class FeeRecordsController < ApplicationController
 
   private
   def record_params
-    params.require(:fee_record).permit(:fee_id,:updated_at, :credit, :debit)
+    params.require(:fee_record).permit(:fee_id,:updated_at, :credit, :debit,:comment)
   end
 
 end

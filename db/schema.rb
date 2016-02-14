@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160208125815) do
+ActiveRecord::Schema.define(version: 20160214113754) do
 
   create_table "books", force: :cascade do |t|
     t.string   "book_name",  limit: 255
@@ -32,8 +32,9 @@ ActiveRecord::Schema.define(version: 20160208125815) do
     t.float    "credit",     limit: 24
     t.float    "debit",      limit: 24
     t.integer  "fee_id",     limit: 4
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.text     "comment",    limit: 65535
   end
 
   add_index "fee_records", ["fee_id"], name: "index_fee_records_on_fee_id", using: :btree
