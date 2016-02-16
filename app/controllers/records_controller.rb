@@ -2,9 +2,10 @@ class RecordsController < ApplicationController
   def create
     @customer = Customer.find(params[:customer_id])
     @record = @customer.records.new(record_params)
+    @record.tenant_id = @customer.tenant_id
     respond_to do |format|
       if @record.save
-        format.html { redirect_to customer_path(@customer), notice: '费项创建成功.' }
+        format.html { redirect_to customer_path(@customer), notice: '记录创建成功.' }
       else
         format.html { redirect_to customer_path(@customer), notice: @record.errors }
       end

@@ -1,15 +1,22 @@
 class CustomersController < ApplicationController
+  before_action :set_customer, only: [:show, :edit, :update, :destroy]
 
   def index
-    @customers = Customer
-        .joins('LEFT OUTER JOIN records on customers.id = records.customer_id
-            and left(records.updated_at,4) = ', session[:current_year])
-        .where('customers.tenant_id= ? ', current_tenant.id)
-                     .order('records.updated_at DESC').uniq
+    # @customers = Customer
+    #     .joins('LEFT OUTER JOIN records on customers.id = records.customer_id
+    #         and left(records.updated_at,4) = ', session[:current_year])
+    #     .where('customers.tenant_id= ? ', current_tenant.id)
+    #                  .order('records.updated_at DESC').uniq
+    @customer_total = Record.select('sum(credit) credit, sum(debit) debit, sum(bad) bad')
+                          .where('tenant_id =? and left(records.updated_at,4) = ?',
+                                 current_tenant.id, session[:current_year]).to_a
 
-    @debit_sum = @customers.sum('debit')
-    @credit_sum = @customers.sum('credit')
-    @bad_sum = @customers.sum('bad')
+    @customer_group = Customer.select('customers.id, customers.cname, sum(records.credit) as credit,
+                                sum(records.debit) as debit, sum(records.bad) as bad')
+                          .joins('LEFT OUTER JOIN records on customers.id = records.customer_id
+                                  and left(records.updated_at,4) = ', session[:current_year])
+                          .where('customers.tenant_id= ? ', current_tenant.id)
+                          .group('customers.id, customers.cname')
 
   end
 
@@ -81,6 +88,10 @@ class CustomersController < ApplicationController
 
 
   private
+  # Use callbacks to share common setup or constraints between actions.
+  def set_customer
+    @customer = Customer.find_by_id(params[:id])
+  end
   def customer_params
     params.require(:customer).permit(:cname, :phone_no)
   end

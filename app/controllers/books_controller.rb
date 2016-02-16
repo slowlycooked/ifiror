@@ -16,6 +16,8 @@ class BooksController < ApplicationController
       @fees = @book.fees
       @debit_sum = @book.fee_records.where('left(fee_records.updated_at,4) =?', session[:current_year]).sum('debit')
       @credit_sum = @book.fee_records.where('left(fee_records.updated_at,4) =?', session[:current_year]).sum('credit')
+      
+
     else
       redirect_to root_path
     end

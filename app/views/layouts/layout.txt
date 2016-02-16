@@ -3,3 +3,11 @@
 <% else %>
     <body data-no-turbolink="false">
 <% end %>
+
+
+
+<% if (params[:controller] == 'customer' and params[:action]) == 'show' %>
+    <body data-no-turbolink="true">
+<% else %>
+    <body data-no-turbolink="false">
+<% end %>

@@ -12,7 +12,7 @@
 <div id="no-more-tables">
 
   <table class="table table-responsive table-striped table-hover table-condensed table-bordered "
-  style="border: 2px solid orange">
+         style="border: 2px solid orange">
     <thead>
     <tr>
       <th>客户名称</th>
@@ -74,7 +74,7 @@
 
           <td class="numeric" data-title="日期">
             <div id="sandbox-container" style="font-size: 12px;">
-              <%= f.text_field :updated_at, 'data-provide' => 'datepicker', value:Time.now.strftime('%Y/%m/%d') %>
+              <%= f.text_field :updated_at, 'data-provide' => 'datepicker', value: Time.now.strftime('%Y/%m/%d') %>
             </div>
             <script>
                 $(document).ready(function () {

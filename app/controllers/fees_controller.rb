@@ -1,26 +1,17 @@
 class FeesController < ApplicationController
   before_action :set_fee, only: [:show, :edit, :update, :destroy]
 
-  # GET /fees
-  # GET /fees.json
-=begin
-  def index
-    @fees = Fee.all
-    @book = Book.find(params[:book_id])
-    @fee = Fee.find(params[:id])
-    @debit_sum = FeeRecord.sum('debit')
-    @credit_sum = FeeRecord.sum('credit')
-  end
-=end
-
-  # GET /fees/1
-  # GET /fees/1.json
   def show
-    @book = Book.find(params[:book_id])
-    @fee = @book.fees.find(params[:id])
-    @records = @fee.fee_records.where('left(fee_records.updated_at,4) =?', session[:current_year])
-    @debit_sum = @records.sum("debit")
-    @credit_sum =@records.sum("credit")
+    if Book.find_by_id(params[:book_id])
+      @book = Book.find(params[:book_id])
+      @fee = @book.fees.find(params[:id])
+      @records = @fee.fee_records.where('left(fee_records.updated_at,4) =?', session[:current_year])
+      @debit_sum = @records.sum("debit")
+      @credit_sum =@records.sum("credit")
+    else
+      redirect_to root_path
+    end
+
 
   end
 

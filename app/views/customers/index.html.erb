@@ -4,10 +4,6 @@
 <br>
 <br>
 
-<!--%= form_for customer_path, method: 'get' do |f| %-->
-    <!--%= select_year session[:current_year], {start_year: 2014, end_year: 2016}, {onchange: 'this.form.submit()'} %-->
-<!--% end %-->
-
 <table class="table table-responsive table-striped table-hover table-condensed table-bordered "
        style="border: 2px solid orange">
 
@@ -21,14 +17,21 @@
   </thead>
   <tbody>
   <tr>
-    <td class="head_sum"><%= @debit_sum %></td>
-    <td class="head_sum"><%= @credit_sum %></td>
-    <td class="head_sum hidden-xs hidden-sm"><%= @bad_sum %></td>
+    <%
+       #assing values to credit debit and bad test if they are nil
+       cr = @customer_total[0].credit.nil? ? 0 : @customer_total[0].credit
+       de = @customer_total[0].debit.nil? ? 0 : @customer_total[0].debit
+       bad = @customer_total[0].bad.nil? ? 0 : @customer_total[0].bad
+    %>
 
-    <% if  @credit_sum - @debit_sum + @bad_sum <0 %>
-        <td class="head_sum" style="color:red"><%=  @credit_sum - @debit_sum + @bad_sum %></td>
+    <td class="head_sum"><%= de %></td>
+    <td class="head_sum"><%= cr %></td>
+    <td class="head_sum hidden-xs hidden-sm"><%= bad %></td>
+
+    <% if cr - de + bad <0 %>
+        <td class="head_sum" style="color:red"><%= cr - de + bad %></td>
     <% else %>
-        <td class="head_sum"><%=  @credit_sum - @debit_sum + @bad_sum %></td>
+        <td class="head_sum"><%= cr - de + bad %></td>
     <% end %>
 
   </tr>
@@ -48,12 +51,11 @@
 
   <tbody>
   <%
-     @customers.each do |rec|
-        records = rec.records.where('left(updated_at,4) =?', session['current_year'])
-        de = records.sum('debit')
-        cr = records.sum('credit')
-        bad = records.sum('bad')
-        remain = cr - de + bad
+     @customer_group.each do |rec|
+       cr = rec.credit.nil? ? 0 : rec.credit
+       de = rec.debit.nil? ? 0 : rec.debit
+       bad = rec.bad.nil? ? 0 : rec.bad
+       remain = cr - de + bad
   %>
       <tr>
         <td><%= link_to rec.cname , customer_path(rec.id) %></td>
