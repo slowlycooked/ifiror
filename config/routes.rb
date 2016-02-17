@@ -19,8 +19,9 @@ Rails.application.routes.draw do
     end
   end
 
-  devise_for :tenants
+  #get '/tenants/sign_in', to: 'devise/sessions#new'
 
+  devise_for :tenants
 
   # Example of regular route:
   #  get 'products/:id' => 'catalog#view'

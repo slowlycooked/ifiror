@@ -37,9 +37,10 @@
 
   <tbody>
   <%
-     @fees.each do |rec|
-       de = rec.fee_records.where('left(fee_records.updated_at,4) =?', session[:current_year]).sum('debit')
-       cr = rec.fee_records.where('left(fee_records.updated_at,4) =?', session[:current_year]).sum('credit')
+     @groupby_fee.each do |rec|
+       de = rec.debit
+       cr = rec.credit
+       #cr = rec.fee_records.where('left(fee_records.updated_at,4) =?', session[:current_year]).sum('credit')
   %>
       <tr>
         <td data-title="费项"><%= link_to rec.fee_name , book_fee_path(rec.book_id,rec.id) %></td>

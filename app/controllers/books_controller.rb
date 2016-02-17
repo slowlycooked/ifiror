@@ -16,7 +16,14 @@ class BooksController < ApplicationController
       @fees = @book.fees
       @debit_sum = @book.fee_records.where('left(fee_records.updated_at,4) =?', session[:current_year]).sum('debit')
       @credit_sum = @book.fee_records.where('left(fee_records.updated_at,4) =?', session[:current_year]).sum('credit')
-      
+
+      @groupby_fee = @fees.select('fees.book_id, fees.id, fees.fee_name,
+                            sum(fee_records.debit) as debit, sum(fee_records.credit) as credit')
+                         .joins("LEFT OUTER JOIN fee_records on fees.id=fee_records.fee_id
+                                and left(fee_records.updated_at,4) = #{session[:current_year]}")
+                         .group('fees.book_id, fees.id, fees.fee_name')
+                         .order('fees.updated_at')
+
 
     else
       redirect_to root_path
