@@ -13,9 +13,8 @@ class FeesController < ApplicationController
     end
   end
 
+
   def show_monthly_report
-
-
     if Book.find_by_id(params[:book_id])
       @book = Book.find(params[:book_id])
       @fee = @book.fees.find(params[:fee_id])
