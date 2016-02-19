@@ -1,7 +1,7 @@
 class WelcomeController < ApplicationController
-  before_action :set_year
 
-  def index
+
+def index
     @books = Book.all.where(tenant_id: current_tenant.id)
 
   end
@@ -17,14 +17,8 @@ class WelcomeController < ApplicationController
     params.require(:welcome).permit(:year)
   end
 
-  def set_year
-    if session[:current_year] == nil
-      session[:current_year] = Date.today.year.to_s
-    end
 
 
-
-  end
 
 end
 

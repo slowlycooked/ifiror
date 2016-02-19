@@ -5,14 +5,32 @@ class FeesController < ApplicationController
     if Book.find_by_id(params[:book_id])
       @book = Book.find(params[:book_id])
       @fee = @book.fees.find(params[:id])
-      @records = @fee.fee_records.where('left(fee_records.updated_at,4) =?', session[:current_year])
+      @records = @fee.fee_records.where('left(fee_records.updated_at,4) =?', session[:current_year]).order('updated_at')
       @debit_sum = @records.sum("debit")
       @credit_sum =@records.sum("credit")
     else
       redirect_to root_path
     end
+  end
+
+  def show_monthly_report
 
 
+    if Book.find_by_id(params[:book_id])
+      @book = Book.find(params[:book_id])
+      @fee = @book.fees.find(params[:fee_id])
+      @records = @fee.fee_records.where('year(fee_records.updated_at) =?', session[:current_year])
+      @debit_sum = @records.sum("debit")
+      @credit_sum =@records.sum("credit")
+
+      @groupby_month = @records.select(' month(updated_at) as month,
+                             sum(fee_records.debit) as debit, sum(fee_records.credit) as credit')
+                           .group('month(updated_at)')
+                           .order('month(updated_at) ASC')
+
+    else
+      redirect_to root_path
+    end
   end
 
   # GET /fees/new

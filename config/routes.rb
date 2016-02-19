@@ -16,6 +16,8 @@ Rails.application.routes.draw do
   resources :books do
     resources :fees do
       resources :fee_records
+
+      get 'monthly_report', to: 'fees#show_monthly_report'
     end
   end
 

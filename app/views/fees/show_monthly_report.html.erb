@@ -1,0 +1,62 @@
+<% content_for :title, @fee.fee_name+'月报' %>
+<p>
+  <strong>账本名称:</strong>
+  <%= @book.book_name %>
+</p>
+
+
+<div class="row">
+  <div class="col-xs-6">
+    <%= link_to '返回'+@fee.fee_name+'明细', book_fee_path(@book, @fee), class: 'btn btn-primary' %>
+  </div>
+
+</div>
+<br>
+<div id="no-more-tables">
+  <table class="table table-responsive table-striped table-hover table-condensed table-bordered " style="border: 2px solid orange">
+    <thead>
+    <tr>
+      <th>费项</th>
+      <th>收入</th>
+      <th>支出</th>
+      <th>余额</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td class="head_sum" data-title="费项"><%= @fee.fee_name %></td>
+      <td class="head_sum" data-title="收入"><%= @credit_sum %></td>
+      <td class="head_sum" data-title="支出"><%= @debit_sum %></td>
+      <td class="head_sum" data-title="余额"><%= @credit_sum-@debit_sum %></td>
+    </tr>
+
+    </tbody>
+  </table>
+
+  <table class="table table-responsive table-striped table-hover table-condensed table-bordered ">
+    <thead>
+    <tr>
+      <th>月份</th>
+      <th>收入</th>
+      <th>支出</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <% @groupby_month.each do |record| %>
+        <tr>
+          <td class="numeric" data-title="月份">
+            <%= record.month.to_s+"月" %>
+          </td>
+          <td class="numeric" data-title="收入"><%= record.credit %></td>
+          <td class="numeric" data-title="支出"><%= record.debit %></td>
+
+        </tr>
+    <% end %>
+
+    </tbody>
+  </table>
+</div>
+
+
+

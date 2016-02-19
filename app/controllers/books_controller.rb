@@ -24,11 +24,11 @@ class BooksController < ApplicationController
                          .group('fees.book_id, fees.id, fees.fee_name')
                          .order('fees.updated_at')
 
-
     else
       redirect_to root_path
     end
   end
+
 
   # GET /fees/new
   def new
@@ -73,8 +73,7 @@ class BooksController < ApplicationController
     end
   end
 
-  # DELETE /fees/1
-  # DELETE /fees/1.json
+
   def destroy
 
     @book.destroy
@@ -83,6 +82,7 @@ class BooksController < ApplicationController
       format.json { head :no_content }
     end
   end
+
 
   private
   # Use callbacks to share common setup or constraints between actions.
