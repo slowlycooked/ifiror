@@ -5,6 +5,7 @@ class RecordsController < ApplicationController
     @record.tenant_id = @customer.tenant_id
     respond_to do |format|
       if @record.save
+        @customer.update_attribute('updated_at', record_params[:updated_at])
         format.html { redirect_to customer_path(@customer), notice: '记录创建成功.' }
       else
         format.html { redirect_to customer_path(@customer), notice: @record.errors }

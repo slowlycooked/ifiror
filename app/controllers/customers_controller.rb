@@ -17,6 +17,7 @@ class CustomersController < ApplicationController
                                   and left(records.updated_at,4) = ', session[:current_year])
                           .where('customers.tenant_id= ? ', current_tenant.id)
                           .group('customers.id, customers.cname')
+                          .order('customers.updated_at DESC')
 
   end
 

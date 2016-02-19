@@ -22,7 +22,7 @@ class BooksController < ApplicationController
                          .joins("LEFT OUTER JOIN fee_records on fees.id=fee_records.fee_id
                                 and left(fee_records.updated_at,4) = #{session[:current_year]}")
                          .group('fees.book_id, fees.id, fees.fee_name')
-                         .order('fees.updated_at')
+                         .order('fees.updated_at DESC')
 
     else
       redirect_to root_path
