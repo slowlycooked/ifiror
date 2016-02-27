@@ -1,11 +1,25 @@
 <% content_for :title, @fee.fee_name+'明细' %>
+
+
+<div class="fixed-box row">
+  <div class="col-xs-4 col-md-1 hlable">
+    <%= @book.book_name %>
+  </div>
+  <div class="col-xs-4 col-md-1 hlable">
+    <%= yield(:title) %>
+  </div>
+  <div class="col-xs-4 col-md-1">
+    <%= link_to '返回费项列表', book_path(@book), class: 'btn btn-primary' %>
+  </div>
+</div>
+<!--
 <p>
   <strong>账本名称:</strong>
   <%= @book.book_name %>
 </p>
+-->
 
-    <%= link_to '返回费项列表', book_path(@book), class: 'btn btn-primary' %>
-<%= link_to '按月统计', book_fee_monthly_report_path(@book, @fee), class: 'btn btn-primary' %>
+<%= link_to '按月统计', book_fee_monthly_report_path(@book, @fee) %>
 <br><br>
 
 <div id="no-more-tables">

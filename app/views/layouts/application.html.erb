@@ -14,27 +14,32 @@
 <% else %>
     <body data-no-turbolink="false">
 <% end %>
+
 <div id="main-container" class="container">
-  <% if tenant_signed_in? %>
-      <%= link_to('登出', destroy_tenant_session_path, :method => :delete, :class => 'btn btn-primary') %>
-        <br><br>
-      <%= form_for :welcome , :url => {:controller => :welcome, :action =>'set_current_year'} ,
-                   :html => {:id=>'year_form', :method => "post"} do | f | %>
-          <label style="font-size:18px">年份：</label>
-          <%= f.select :year,
-                       options_for_select(['2015','2016'],session[:current_year]),
-                       {},
-                       {style:'font-size:18px', onchange: "this.form.submit()"}
-          %>
+  <div class="fix_top"></div>
+  <div class="row">
+    <% if tenant_signed_in? %>
 
-      <% end %>
-  <% end %>
+        <div class="col-xs-6">
+          <%= form_for :welcome, :url => {:controller => :welcome, :action => 'set_current_year'},
+                       :html => {:id => 'year_form', :method => "post"} do |f| %>
+              <label style="font-size:18px">年份：</label>
+              <%= f.select :year,
+                           options_for_select(['2015', '2016'], session[:current_year]),
+                           {},
+                           {style: 'font-size:18px', onchange: "this.form.submit()"}
+              %>
 
+          <% end %>
+        </div>
+        <div class="col-xs-6" style="text-align: right">
+          <%= link_to('登出', destroy_tenant_session_path, :method => :delete, :class => 'btn btn-primary') %>
+        </div>
+    <% end %>
+  </div>
 
-
-  <h2><%= yield(:title) %></h2>
   <%= notice %>
-  <%= alert %><br>
+  <%= alert %>
   <%= yield %>
 </div>
 </body>

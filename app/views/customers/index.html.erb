@@ -1,7 +1,12 @@
 <% content_for :title, '客户列表' %>
-<%= link_to '返回主页', root_path,  class: 'btn btn-primary'  %>
-<%= link_to '新建客户', new_customer_path,  class: 'btn btn-primary'  %>
-<br>
+<div class="fixed-box row">
+  <div class="col-xs-3 col-md-1">
+    <%= link_to '返回主页', root_path, class: 'btn btn-primary' %>
+  </div>
+  <div class="col-xs-3 col-md-1">
+    <%= link_to '新建客户', new_customer_path, class: 'btn btn-primary' %>
+  </div>
+</div>
 <br>
 
 <table class="table table-responsive table-striped table-hover table-condensed table-bordered "
