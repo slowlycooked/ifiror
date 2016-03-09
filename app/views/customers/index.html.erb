@@ -64,13 +64,13 @@
   %>
       <tr>
         <td><%= link_to rec.cname , customer_path(rec.id) %></td>
-        <td class="numeric"><%= de.round(2) %></td>
-        <td class="numeric"><%= cr.round(2) %></td>
-        <td class="numeric hidden-xs hidden-sm"><%= bad.round(2) %></td>
+        <td class="numeric"><%= de.to_f.round(2) %></td>
+        <td class="numeric"><%= cr.to_f.round(2) %></td>
+        <td class="numeric hidden-xs hidden-sm"><%= bad.to_f.round(2) %></td>
         <% if remain<0 %>
-            <td class="numeric" style="color:red"><%= remain.round(2) %></td>
+            <td class="numeric" style="color:red"><%= remain.to_f.round(2) %></td>
         <% else %>
-            <td class="numeric"><%= remain.round(2) %></td>
+            <td class="numeric"><%= remain.to_f.round(2) %></td>
         <% end %>
       </tr>
   <% end %>

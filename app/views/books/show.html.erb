@@ -38,9 +38,9 @@
 
   <tbody>
   <%
-     @groupby_fee.each do |rec|
-       de = rec.debit.round(2)
-       cr = rec.credit.round(2)
+     @group_by_fee.each do |rec|
+       de = rec.debit.to_f.round(2)
+       cr = rec.credit.to_f.round(2)
        #cr = rec.fee_records.where('left(fee_records.updated_at,4) =?', session[:current_year]).sum('credit')
   %>
       <tr>

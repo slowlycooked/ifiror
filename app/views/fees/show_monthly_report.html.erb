@@ -48,8 +48,8 @@
           <td class="numeric" data-title="月份">
             <%= record.month.to_s+"月" %>
           </td>
-          <td class="numeric" data-title="收入"><%= record.credit.round(2) %></td>
-          <td class="numeric" data-title="支出"><%= record.debit.round(2) %></td>
+          <td class="numeric" data-title="收入"><%= record.credit.to_f.round(2) %></td>
+          <td class="numeric" data-title="支出"><%= record.debit.to_f.round(2) %></td>
 
         </tr>
     <% end %>
