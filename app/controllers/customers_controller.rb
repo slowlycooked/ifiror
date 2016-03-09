@@ -69,10 +69,10 @@ class CustomersController < ApplicationController
     if Customer.find_by_id(params[:id])
       @customer = Customer.find(params[:id])
       @records = @customer.records.where('left(updated_at,4) =?', session[:current_year])
-      @debit_sum = @records.sum("debit")
-      @credit_sum = @records.sum("credit")
-      @bad_sum = @records.sum("bad")
-      @remain_sum = @credit_sum - @debit_sum + @bad_sum
+      @debit_sum = @records.sum("debit").round(2)
+      @credit_sum = @records.sum("credit").round(2)
+      @bad_sum = @records.sum("bad").round(2)
+      @remain_sum = (@credit_sum - @debit_sum + @bad_sum).round(2)
     else
       redirect_to customers_path
     end

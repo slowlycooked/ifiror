@@ -14,8 +14,8 @@ class BooksController < ApplicationController
     if Book.find_by_id(params[:id])
       @book = Book.find_by_id(params[:id])
       @fees = @book.fees
-      @debit_sum = @book.fee_records.where('left(fee_records.updated_at,4) =?', session[:current_year]).sum('debit')
-      @credit_sum = @book.fee_records.where('left(fee_records.updated_at,4) =?', session[:current_year]).sum('credit')
+      @debit_sum = @book.fee_records.where('left(fee_records.updated_at,4) =?', session[:current_year]).sum('debit').round(2)
+      @credit_sum = @book.fee_records.where('left(fee_records.updated_at,4) =?', session[:current_year]).sum('credit').round(2)
 
       @groupby_fee = @fees.select('fees.book_id, fees.id, fees.fee_name,
                             sum(fee_records.debit) as debit, sum(fee_records.credit) as credit')

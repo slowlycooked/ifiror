@@ -29,14 +29,14 @@
        bad = @customer_total[0].bad.nil? ? 0 : @customer_total[0].bad
     %>
 
-    <td class="head_sum"><%= de %></td>
-    <td class="head_sum"><%= cr %></td>
-    <td class="head_sum hidden-xs hidden-sm"><%= bad %></td>
+    <td class="head_sum"><%= de.round(2) %></td>
+    <td class="head_sum"><%= cr.round(2) %></td>
+    <td class="head_sum hidden-xs hidden-sm"><%= bad.round(2) %></td>
 
     <% if cr - de + bad <0 %>
-        <td class="head_sum" style="color:red"><%= cr - de + bad %></td>
+        <td class="head_sum" style="color:red"><%= (cr - de + bad).round(2) %></td>
     <% else %>
-        <td class="head_sum"><%= cr - de + bad %></td>
+        <td class="head_sum"><%= (cr - de + bad).round(2) %></td>
     <% end %>
 
   </tr>
@@ -64,13 +64,13 @@
   %>
       <tr>
         <td><%= link_to rec.cname , customer_path(rec.id) %></td>
-        <td class="numeric"><%= de %></td>
-        <td class="numeric"><%= cr %></td>
-        <td class="numeric hidden-xs hidden-sm"><%= bad %></td>
+        <td class="numeric"><%= de.round(2) %></td>
+        <td class="numeric"><%= cr.round(2) %></td>
+        <td class="numeric hidden-xs hidden-sm"><%= bad.round(2) %></td>
         <% if remain<0 %>
-            <td class="numeric" style="color:red"><%= remain %></td>
+            <td class="numeric" style="color:red"><%= remain.round(2) %></td>
         <% else %>
-            <td class="numeric"><%= remain %></td>
+            <td class="numeric"><%= remain.round(2) %></td>
         <% end %>
       </tr>
   <% end %>

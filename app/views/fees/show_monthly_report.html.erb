@@ -25,9 +25,9 @@
     <tbody>
     <tr>
       <td class="head_sum" data-title="费项"><%= @fee.fee_name %></td>
-      <td class="head_sum" data-title="收入"><%= @credit_sum %></td>
-      <td class="head_sum" data-title="支出"><%= @debit_sum %></td>
-      <td class="head_sum" data-title="余额"><%= @credit_sum-@debit_sum %></td>
+      <td class="head_sum" data-title="收入"><%= @credit_sum.round(2) %></td>
+      <td class="head_sum" data-title="支出"><%= @debit_sum.round(2) %></td>
+      <td class="head_sum" data-title="余额"><%= (@credit_sum-@debit_sum).round(2) %></td>
     </tr>
 
     </tbody>
@@ -48,8 +48,8 @@
           <td class="numeric" data-title="月份">
             <%= record.month.to_s+"月" %>
           </td>
-          <td class="numeric" data-title="收入"><%= record.credit %></td>
-          <td class="numeric" data-title="支出"><%= record.debit %></td>
+          <td class="numeric" data-title="收入"><%= record.credit.round(2) %></td>
+          <td class="numeric" data-title="支出"><%= record.debit.round(2) %></td>
 
         </tr>
     <% end %>
