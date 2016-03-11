@@ -91,20 +91,22 @@
           <td class="numeric" data-title="应收">
             <%= f.number_field :debit, value: 0, min: 0, max:999999, inputmode:"numeric",:step => '0.01',
                                pattern:"[0-9]*",
-                               onfocus: "if(this.value == '0') { this.value = ''; }" %>
+                               onfocus: "if(this.value == '0') { this.value = ''; }" ,
+                               onblur: "if(this.value == '') { this.value = 0 ; }" %>
           </td>
           <td class="numeric" data-title="已收">
             <%= f.number_field :credit, value: 0, min: 0, max:999999, inputmode:"numeric",
                                :step => '0.01',
                                pattern:"[0-9]*",
-                onfocus: "if(this.value == '0') { this.value = ''; }" %>
-
+                onfocus: "if(this.value == '0') { this.value = ''; }" ,
+                               onblur: "if(this.value == '') { this.value = 0 ; }" %>
           </td>
           <td class="numeric" data-title="坏账">
             <%= f.number_field :bad, value: 0, min: 0, max:999999, inputmode:"numeric",
                                :step => '0.01',
                                pattern:"[0-9]*",
-                               onfocus: "if(this.value == '0') { this.value = ''; }" %>
+                               onfocus: "if(this.value == '0') { this.value = ''; }",
+                                onblur: "if(this.value == '') { this.value = 0 ; }" %>
           </td>
           <td></td>
           <td colspan="2"> <%= f.submit '保存新记录', class: 'btn btn-primary btn-sm' %></td>

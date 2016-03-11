@@ -1,3 +1,4 @@
+
 <%= form_for  @record, url: customer_record_path(@record.customer_id, @record.id) do |f| %>
     <% if @record.errors.any? %>
         <div id="error_explanation">
@@ -10,19 +11,25 @@
           </ul>
         </div>
     <% end %>
+    <div class="field" data-title="应收">
+      <%= f.number_field :debit, value: 0, min: 0, max:999999, inputmode:"numeric",:step => '0.01',
+                         pattern:"[0-9]*",
+                         onfocus: "if(this.value == '0') { this.value = ''; }" ,
+                         onblur: "if(this.value == '') { this.value = 0 ; }" %>
+    </div>
+    <div class="field" data-title="已收">
+      <%= f.number_field :credit, value: 0, min: 0, max:999999, inputmode:"numeric",:step => '0.01',
+                         pattern:"[0-9]*",
+                         onfocus: "if(this.value == '0') { this.value = ''; }" ,
+                         onblur: "if(this.value == '') { this.value = 0 ; }" %>
+    </div>
+    <div class="field" data-title="坏账">
+      <%= f.number_field :bad, value: 0, min: 0, max:999999, inputmode:"numeric",:step => '0.01',
+                         pattern:"[0-9]*",
+                         onfocus: "if(this.value == '0') { this.value = ''; }" ,
+                         onblur: "if(this.value == '') { this.value = 0 ; }" %>
+    </div>
 
-    <div class="field">
-      <%= f.label '应收' %><br>
-      <%= f.text_field :debit %>
-    </div>
-    <div class="field">
-      <%= f.label '已收' %><br>
-      <%= f.text_field :credit %>
-    </div>
-    <div class="field">
-      <%= f.label '坏账' %><br>
-      <%= f.text_field :bad %>
-    </div>
     <div class="actions">
       <%= f.submit '保存'%>
     </div>

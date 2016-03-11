@@ -90,12 +90,14 @@
           <td class="numeric" data-title="收入">
             <%= f.number_field :credit, value: 0, min: 0, max:999999, inputmode:"numeric",:step => '0.01',
                                pattern:"[0-9]*",
-                               onfocus: "if(this.value == '0') { this.value = ''; }" %>
+                               onfocus: "if(this.value == '0') { this.value = ''; }" ,
+                               onblur: "if(this.value == '') { this.value = 0 ; }" %>
           </td>
           <td class="numeric" data-title="支出">
             <%= f.number_field :debit, value: 0, min: 0, max:999999, inputmode:"numeric",:step => '0.01',
                                pattern:"[0-9]*",
-                               onfocus: "if(this.value == '0') { this.value = ''; }" %>          </td>
+                               onfocus: "if(this.value == '0') { this.value = ''; }" ,
+                               onblur: "if(this.value == '') { this.value = 0 ; }" %>          </td>
           <td data-title="备注"> <%= f.text_field :comment, size: '10'%> </td>
           <td colspan="2"> <%= f.submit '保存新记录', class: 'btn btn-primary btn-sm' %></td>
       <% end %>

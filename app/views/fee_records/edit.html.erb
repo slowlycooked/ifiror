@@ -12,19 +12,20 @@
           </ul>
         </div>
     <% end %>
+    <div class="field" data-title="收入">
+      <%= f.number_field :credit, value: 0, min: 0, max:999999, inputmode:"numeric",:step => '0.01',
+                         pattern:"[0-9]*",
+                         onfocus: "if(this.value == '0') { this.value = ''; }" ,
+                         onblur: "if(this.value == '') { this.value = 0 ; }" %>
+    </div>
+    <div class="field" data-title="支出">
+      <%= f.number_field :debit, value: 0, min: 0, max:999999, inputmode:"numeric",:step => '0.01',
+                         pattern:"[0-9]*",
+                         onfocus: "if(this.value == '0') { this.value = ''; }" ,
+                         onblur: "if(this.value == '') { this.value = 0 ; }" %>
+    </div>
+    <td data-title="备注"> <%= f.text_area :comment%> </td>
 
-    <div class="field">
-      <%= f.label '收入' %><br>
-      <%= f.text_field :credit %>
-    </div>
-    <div class="field">
-      <%= f.label '支出' %><br>
-      <%= f.text_field :debit %>
-    </div>
-    <div class="field">
-      <%= f.label '备注' %><br>
-      <%= f.text_field :comment %>
-    </div>
     <div class="actions">
       <%= f.submit '保存', class:'btn btn-primary' %>
     </div>
