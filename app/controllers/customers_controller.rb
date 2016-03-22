@@ -68,7 +68,7 @@ class CustomersController < ApplicationController
 
     if Customer.find_by_id(params[:id])
       @customer = Customer.find(params[:id])
-      @records = @customer.records.where('left(updated_at,4) =?', session[:current_year])
+      @records = @customer.records.where('left(updated_at,4) =?', session[:current_year]).order("updated_at DESC")
       @debit_sum = @records.sum("debit").round(2)
       @credit_sum = @records.sum("credit").round(2)
       @bad_sum = @records.sum("bad").round(2)
