@@ -55,26 +55,16 @@
     </thead>
 
     <tbody>
-    <% @records.each do |record| %>
-        <tr>
-          <td class="numeric" data-title="日期">
-            <%= record.updated_at.strftime('%Y/%m/%d') %>
-          </td>
-          <td class="numeric" data-title="收入"><%= record.credit %></td>
-          <td class="numeric" data-title="支出"><%= record.debit %></td>
-          <td data-title="备注"><%= (!record.comment.nil? and !record.comment.blank?)  ? record.comment : '无' %></td>
-          <td><%= link_to '编辑', edit_book_fee_fee_record_path(@book.id, record.fee_id, record) %></td>
-          <td><%= link_to '删除', book_fee_fee_record_path(@book.id, record.fee_id, record), method: :delete, data: {confirm: '确定删除吗？'} %></td>
-        </tr>
-    <% end %>
     <tr>
       <%= form_for([@book, @fee, @fee.fee_records.build]) do |f| %>
 
           <td class="numeric" data-title="日期">
 
             <!--%= Time.now.strftime('%Y/%m/%d') %-->
-            <div id="sandbox-container" style="font-size: 12px;">
-              <%= f.text_field :updated_at, 'data-provide' => 'datepicker', value:Time.now.strftime('%Y/%m/%d') %>
+            <div id="sandbox-container" style="font-size: 18px;">
+              <%= f.text_field :updated_at,'data-provide' => 'datepicker',
+                               value: (Time.now.strftime('%Y') > session[:current_year]) ? session[:current_year]+'/12/31': Time.now.strftime('%Y/%m/%d'),
+                               style: ' width:80%;' %>
             </div>
             <script>
                 $(document).ready(function () {
@@ -102,6 +92,21 @@
           <td colspan="2"> <%= f.submit '保存新记录', class: 'btn btn-primary btn-sm' %></td>
       <% end %>
     </tr>
+
+
+    <% @records.each do |record| %>
+        <tr>
+          <td class="numeric" data-title="日期">
+            <%= record.updated_at.strftime('%Y/%m/%d') %>
+          </td>
+          <td class="numeric" data-title="收入"><%= record.credit %></td>
+          <td class="numeric" data-title="支出"><%= record.debit %></td>
+          <td data-title="备注"><%= (!record.comment.nil? and !record.comment.blank?)  ? record.comment : '无' %></td>
+          <td><%= link_to '编辑', edit_book_fee_fee_record_path(@book.id, record.fee_id, record) %></td>
+          <td><%= link_to '删除', book_fee_fee_record_path(@book.id, record.fee_id, record), method: :delete, data: {confirm: '确定删除吗？'} %></td>
+        </tr>
+    <% end %>
+
 
     </tbody>
   </table>

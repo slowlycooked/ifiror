@@ -5,7 +5,7 @@ class FeesController < ApplicationController
     if Book.find_by_id(params[:book_id])
       @book = Book.find(params[:book_id])
       @fee = @book.fees.find(params[:id])
-      @records = @fee.fee_records.where('left(fee_records.updated_at,4) =?', session[:current_year]).order('updated_at')
+      @records = @fee.fee_records.where('left(fee_records.updated_at,4) =?', session[:current_year]).order('updated_at DESC')
       @debit_sum = @records.sum("debit")
       @credit_sum =@records.sum("credit")
     else
