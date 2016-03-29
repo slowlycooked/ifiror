@@ -1,24 +1,60 @@
 .fixed-box {
 
   width: 100%;
-  min-height: 50px;
+  min-height: 25px;
   padding-top: 5px;
   position: fixed;
   top: 0px;
-  background-color: grey;
+  background-color: black;
   z-index: 10;
 
 }
 
 .fix_top {
-  height: 50px;
+  height: 25px;
   clear: both;
   border: 1px;
-
 }
+
 
 .hlable {
   font-size: 18px;
   color: white;
   overflow: auto;
+}
+
+.amount_input {
+  width: 160px;
+}
+
+.breadcrumb {
+  background: none;
+  border: 0px solid rgba(245, 245, 245, 1);
+  border-radius: 4px;
+  display: block;
+}
+
+.breadcrumb li {
+  font-size: 18px;
+}
+
+.breadcrumb a {
+  color: rgba(66, 139, 202, 1);
+}
+
+.breadcrumb a:hover {
+  color: rgba(255, 255, 255, 1);
+}
+
+.breadcrumb > .active {
+  color: rgba(255, 255, 255, 1);
+}
+
+.breadcrumb > li + li:before {
+  color: rgba(204, 204, 204, 1);
+  content: "\276F\00a0";
+}
+
+.btn-submit {
+  font-size: 16px;
 }

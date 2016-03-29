@@ -1,17 +1,18 @@
 <% content_for :title, @fee.fee_name+'明细' %>
 
-
-<div class="fixed-box row">
-  <div class="col-xs-4 col-md-1 hlable">
-    <%= @book.book_name %>
-  </div>
-  <div class="col-xs-4 col-md-1 hlable">
-    <%= yield(:title) %>
-  </div>
-  <div class="col-xs-4 col-md-1">
-    <%= link_to '返回费项列表', book_path(@book), class: 'btn btn-primary' %>
-  </div>
+<div class="fixed-box">
+  <ol class="breadcrumb">
+    <li><%= link_to '主页', root_path %></li>
+    <li><%= link_to @book.book_name, book_path(@book) %></li>
+    <li class="active"> <%= @fee.fee_name+'明细' %></li>
+  </ol>
 </div>
+
+<br>
+
+
+
+
 <!--
 <p>
   <strong>账本名称:</strong>
@@ -19,7 +20,7 @@
 </p>
 -->
 
-<%= link_to '按月统计', book_fee_monthly_report_path(@book, @fee) %>
+<%= link_to '按月统计', book_fee_monthly_report_path(@book, @fee), class: 'btn btn-primary' %>
 <br><br>
 
 <div id="no-more-tables">
@@ -79,17 +80,19 @@
           </td>
           <td class="numeric" data-title="收入">
             <%= f.number_field :credit, value: 0, min: 0, max:999999, inputmode:"numeric",:step => '0.01',
+                               class: 'amount_input',
                                pattern:"[0-9]*",
                                onfocus: "if(this.value == '0') { this.value = ''; }" ,
                                onblur: "if(this.value == '') { this.value = 0 ; }" %>
           </td>
           <td class="numeric" data-title="支出">
             <%= f.number_field :debit, value: 0, min: 0, max:999999, inputmode:"numeric",:step => '0.01',
+                               class: 'amount_input',
                                pattern:"[0-9]*",
                                onfocus: "if(this.value == '0') { this.value = ''; }" ,
                                onblur: "if(this.value == '') { this.value = 0 ; }" %>          </td>
-          <td data-title="备注"> <%= f.text_field :comment, size: '10'%> </td>
-          <td colspan="2"> <%= f.submit '保存新记录', class: 'btn btn-primary btn-sm' %></td>
+          <td data-title="备注"> <%= f.text_field :comment, size: '12' %> </td>
+          <td colspan="2"> <%= f.submit '保存新记录', class: 'btn btn-primary btn-sm btn-block btn-submit' %></td>
       <% end %>
     </tr>
 

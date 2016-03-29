@@ -1,15 +1,22 @@
-<% content_for :title, '收支信息' %>
-<div class="row fixed-box">
-  <div class="col-xs-3 col-md-1 hlable">
-    <%= @customer.cname %>
-  </div>
+<% content_for :title, @customer.cname+'收支信息' %>
+
+
+<div class="fixed-box">
+  <ol class="breadcrumb">
+    <li><%= link_to '主页', root_path %></li>
+    <li><%= link_to '客户列表', customers_path %></li>
+    <li class="active"><%= @customer.cname %></li>
+  </ol>
+</div>
+
+<br>
+
+<div class="row">
   <div class="col-xs-3 col-md-1">
-    <%= link_to '返回列表', customers_path, class: 'btn btn-primary' %>
+    <%= link_to '新建客户', new_customer_path, class: 'btn btn-primary' %>
   </div>
 </div>
 <br>
-
-
 <div id="no-more-tables">
 
   <table class="table table-responsive table-striped table-hover table-condensed table-bordered "
@@ -57,7 +64,7 @@
       <%= form_for([@customer, @customer.records.build]) do |f| %>
 
           <td class="numeric" data-title="日期">
-            <div id="sandbox-container" style="font-size: 18px;">
+            <div id="sandbox-container" style="font-size: 18px; width: 160px;">
               <%= f.text_field :updated_at, 'data-provide' => 'datepicker',
                                value: (Time.now.strftime('%Y') > session[:current_year]) ? session[:current_year]+'/12/31': Time.now.strftime('%Y/%m/%d'),
                                style: ' width:80%;' %>
@@ -76,6 +83,7 @@
           <td class="numeric" data-title="应收">
             <%= f.number_field :debit, value: 0, min: 0, max:999999, inputmode:"numeric",:step => '0.01',
                                pattern:"[0-9]*",
+                               class: 'amount_input',
                                onfocus: "if(this.value == '0') { this.value = ''; }" ,
                                onblur: "if(this.value == '') { this.value = 0 ; }" %>
           </td>
@@ -83,6 +91,7 @@
             <%= f.number_field :credit, value: 0, min: 0, max:999999, inputmode:"numeric",
                                :step => '0.01',
                                pattern:"[0-9]*",
+                               class: 'amount_input',
                                onfocus: "if(this.value == '0') { this.value = ''; }" ,
                                onblur: "if(this.value == '') { this.value = 0 ; }" %>
           </td>
@@ -90,11 +99,12 @@
             <%= f.number_field :bad, value: 0, min: 0, max:999999, inputmode:"numeric",
                                :step => '0.01',
                                pattern:"[0-9]*",
+                               class: 'amount_input',
                                onfocus: "if(this.value == '0') { this.value = ''; }",
                                onblur: "if(this.value == '') { this.value = 0 ; }" %>
           </td>
           <td></td>
-          <td colspan="2"> <%= f.submit '保存新记录', class: 'btn btn-primary btn-sm' %></td>
+          <td colspan="2"> <%= f.submit '保存新记录', class: 'btn btn-primary btn-sm btn-block btn-submit' %></td>
 
       <% end %>
     </tr>

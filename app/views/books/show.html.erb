@@ -1,14 +1,22 @@
 <% content_for :title, @book.book_name %>
 
-<div class="fixed-box row">
-  <div class="col-xs-3 col-md-1">
-    <%= link_to '返回主页', root_path, class: 'btn btn-primary' %>
-  </div>
+
+<div class="fixed-box">
+  <ol class="breadcrumb">
+    <li><%= link_to '主页', root_path %></li>
+    <li class="active"> <%= @book.book_name %></li>
+  </ol>
+</div>
+
+<br>
+
+<div class="row">
   <div class="col-xs-3 col-md-1">
     <%= link_to '新建费项', new_book_fee_path(@book), class: 'btn btn-primary' %>
   </div>
 </div>
 <br>
+
 <table class="table table-responsive table-striped table-hover table-condensed table-bordered " style="border: 2px solid orange">
   <thead>
   <tr>

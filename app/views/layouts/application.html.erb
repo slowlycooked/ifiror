@@ -3,25 +3,30 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><%= yield(:title) %></title>
-  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => false %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => false %>
   <%= csrf_meta_tags %>
 
 </head>
 
-<% if (params[:controller] == 'customer' and params[:action]) == 'show' %>
+<!--
+ if (params[:controller] == 'customer' and params[:action]) == 'show' %>
     <body data-no-turbolink="true">
-<% else %>
+ else %>
     <body data-no-turbolink="false">
-<% end %>
+ end %>
+-->
+
+<body data-no-turbolink="false">
+
+<div class="fix_top"></div>
 
 <div id="main-container" class="container">
-  <div class="fix_top"></div>
-
-
+  <!--div class="fix_top"></div -->
   <%= notice %>
   <%= alert %>
   <%= yield %>
 </div>
 </body>
+
 </html>
