@@ -1,35 +1,35 @@
-<% content_for :title, @fee.fee_name+'月报' %>
+<% content_for :title, @book.book_name+'月报' %>
 
 <div class="fixed-box">
   <ol class="breadcrumb">
     <li><%= link_to '主页', root_path %></li>
-    <li><%= link_to @fee.fee_name, book_fee_path(@book, @fee) %></li>
-    <li class="active"> <%= @fee.fee_name+'月报' %></li>
+    <li><%= link_to @book.book_name, book_path(@book) %></li>
+    <li class="active"> <%= @book.book_name+'月报' %></li>
   </ol>
 </div>
 
-<br>
-<br>
+<br><br>
+
 <div id="no-more-tables">
+
   <table class="table table-responsive table-striped table-hover table-condensed table-bordered " style="border: 2px solid orange">
     <thead>
     <tr>
-      <th>费项</th>
-      <th>收入</th>
-      <th>支出</th>
-      <th>余额</th>
+      <th>总收入</th>
+      <th>总支出</th>
+      <th>总余额</th>
+
     </tr>
     </thead>
     <tbody>
     <tr>
-      <td class="head_sum" data-title="费项"><%= @fee.fee_name %></td>
-      <td class="head_sum" data-title="收入"><%= @credit_sum.round(2) %></td>
-      <td class="head_sum" data-title="支出"><%= @debit_sum.round(2) %></td>
-      <td class="head_sum" data-title="余额"><%= (@credit_sum-@debit_sum).round(2) %></td>
+      <td class="head_sum" data-title="总收入"><%= @credit_sum %></td>
+      <td class="head_sum" data-title="总支出"><%= @debit_sum %></td>
+      <td class="head_sum" data-title="总余额"><%= @credit_sum - @debit_sum %></td>
     </tr>
-
     </tbody>
   </table>
+
 
   <table class="table table-responsive table-striped table-hover table-condensed table-bordered ">
     <thead>

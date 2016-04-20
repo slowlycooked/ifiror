@@ -85,6 +85,24 @@ class BooksController < ApplicationController
   end
 
 
+  def show_monthly_report
+    if Book.find_by_id(params[:book_id])
+      @book = Book.find(params[:book_id])
+      @records = @book.fee_records.where('year(fee_records.updated_at) =?', session[:current_year])
+      @debit_sum = @records.sum("debit")
+      @credit_sum =@records.sum("credit")
+
+      @groupby_month = @records.select(' month(fee_records.updated_at) as month,
+                             sum(fee_records.debit) as debit, sum(fee_records.credit) as credit')
+                           .group('month(fee_records.updated_at)')
+                           .order('month(fee_records.updated_at) ASC')
+
+    else
+      redirect_to root_path
+    end
+  end
+
+
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_book

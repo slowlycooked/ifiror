@@ -19,6 +19,8 @@ Rails.application.routes.draw do
 
       get 'monthly_report', to: 'fees#show_monthly_report'
     end
+
+    get 'monthly_report', to: 'books#show_monthly_report'
   end
 
   #get '/tenants/sign_in', to: 'devise/sessions#new'
