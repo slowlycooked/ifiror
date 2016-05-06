@@ -86,6 +86,7 @@
     <orderEntry type="library" scope="PROVIDED" name="uglifier (v2.7.2, RVM: ruby-2.2.1 [ifiror]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="warden (v1.2.6, RVM: ruby-2.2.1 [ifiror]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="web-console (v2.2.1, RVM: ruby-2.2.1 [ifiror]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="yard (v0.8.7.6, RVM: ruby-2.2.1 [ifiror]) [gem]" level="application" />
   </component>
   <component name="RModuleSettingsStorage">
     <LOAD_PATH number="0" />
