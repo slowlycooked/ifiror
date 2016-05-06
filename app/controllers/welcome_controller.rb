@@ -1,9 +1,9 @@
 class WelcomeController < ApplicationController
+  before_filter :authenticate_tenant!
 
 
 def index
     @books = Book.all.where(tenant_id: current_tenant.id)
-
   end
 
   def set_current_year

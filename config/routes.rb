@@ -25,6 +25,8 @@ Rails.application.routes.draw do
 
   #get '/tenants/sign_in', to: 'devise/sessions#new'
 
+  #devise_for :tenants, :controllers => {:registrations => "registrations"}
+
   devise_for :tenants
 
   # Example of regular route:

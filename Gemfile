@@ -59,3 +59,5 @@ gem 'bootstrap-datepicker-rails'
 
 gem 'devise'
 
+gem 'yard'
+
