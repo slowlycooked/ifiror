@@ -19,9 +19,21 @@
                          onblur: "if(this.value == '') { this.value = 0 ; }" %>
     </div>
     <div class="field" data-title="支出">
-      <%= f.number_field :debit, value: 0, min: 0, max:999999, inputmode:"numeric",:step => '0.01',
+      <%= f.number_field :quantity, value: 0, min: 0, max: 999999, inputmode: "numeric", :step => '0.01',
                          pattern:"[0-9]*",
                          onfocus: "if(this.value == '0') { this.value = ''; }" ,
+                         onblur: "if(this.value == '') { this.value = 0 ; }" %>
+    </div>
+    <div class="field" data-title="支出">
+      <%= f.number_field :pricefeddfdadf, value: 0, min: 0, max: 999999, inputmode: "numeric", :step => '0.01',
+                         pattern: "[0-9]*",
+                         onfocus: "if(this.value == '0') { this.value = ''; }",
+                         onblur: "if(this.value == '') { this.value = 0 ; }" %>
+    </div>
+    <div class="field" data-title="支出">
+      <%= f.number_field :debit, value: 0, min: 0, max: 999999, inputmode: "numeric", :step => '0.01',
+                         pattern: "[0-9]*",
+                         onfocus: "if(this.value == '0') { this.value = ''; }",
                          onblur: "if(this.value == '') { this.value = 0 ; }" %>
     </div>
     <td data-title="备注"> <%= f.text_area :comment%> </td>

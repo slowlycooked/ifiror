@@ -61,3 +61,5 @@ gem 'devise'
 
 gem 'yard'
 
+#gem 'chartkick'
+
