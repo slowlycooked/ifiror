@@ -1,0 +1,11 @@
+defaults: &defaults
+  timeout: 216000
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  timeout: 3600
