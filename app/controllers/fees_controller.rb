@@ -27,6 +27,8 @@ class FeesController < ApplicationController
                            .group('month(updated_at)')
                            .order('month(updated_at) ASC')
 
+      #  binding.pry
+
     else
       redirect_to root_path
     end
