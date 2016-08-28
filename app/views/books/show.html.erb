@@ -20,6 +20,55 @@
 </div>
 <br>
 
+<script type="text/javascript" charset="utf-8">
+    $(function () {
+        new Highcharts.Chart({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie',
+                renderTo: "orders_chart"
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                        style: {
+                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                        }
+                    }
+                }
+            },
+            title: {
+                text: "支出费项分布图"
+            },
+
+            tooltip: {
+                valueSuffix: ' 元'
+            },
+
+
+            series: [{
+                name: '支出',
+                colorByPoint: true,
+
+                //data: [["柴油", 11650.0], ["快子", 7990.0],["易耗品", 0]]
+                data: <%=
+                group_by_fee_no_nil = @group_by_fee.reject { |o| o.debit.nil? }
+                raw group_by_fee_no_nil.map { |o| [o.fee_name, o.debit ] }.compact.to_s
+                 %>
+
+            }]
+        });
+    });
+</script>
+<div id="orders_chart"></div>
+
+
 <table class="table table-responsive table-striped table-hover table-condensed table-bordered " style="border: 2px solid orange">
   <thead>
   <tr>
@@ -32,7 +81,7 @@
   <tbody>
   <tr>
     <td class="head_sum" data-title="总收入"><%= @credit_sum %></td>
-    <td class="head_sum" data-title="总支出"><%= @debit_sum%></td>
+    <td class="head_sum" data-title="总支出"><%= @debit_sum %></td>
     <td class="head_sum" data-title="总余额"><%= @credit_sum - @debit_sum %></td>
   </tr>
   </tbody>
@@ -55,7 +104,7 @@
        #cr = rec.fee_records.where('left(fee_records.updated_at,4) =?', session[:current_year]).sum('credit')
   %>
       <tr>
-        <td data-title="费项"><%= link_to rec.fee_name , book_fee_path(rec.book_id,rec.id) %></td>
+        <td data-title="费项"><%= link_to rec.fee_name, book_fee_path(rec.book_id, rec.id) %></td>
         <td class="numeric" data-title="收入"><%= cr %></td>
         <td class="numeric" data-title="支出"><%= de %></td>
       </tr>

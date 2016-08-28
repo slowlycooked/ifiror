@@ -157,7 +157,7 @@ Devise.setup do |config|
   # time the user will be asked for credentials again. Default is 30 minutes.
   #config.timeout_in = 10.minutes
   DEVISE_YML = YAML::load_file("#{Rails.root}/config/devise.yml")[Rails.env]
-  config.timeout_in = 3600.minutes #DEVISE_YML['timeout']
+  config.timeout_in = 3600.seconds #(DEVISE_YML['timeout'])
 
 
   # ==> Configuration for :lockable
