@@ -1,6 +1,38 @@
-<%= link_to '返回费项', book_fee_path(@fee.book_id, @record.fee_id), class:'btn btn-primary' %>
-<br><br>
-<%= form_for  @record, url: book_fee_fee_record_path(@fee.book_id, @record.fee_id, @record.id) do |f| %>
+<script>
+    $(document).ready(function () {
+        //日期选择器
+        $('#sandbox-container input').datepicker({
+            format: "yyyy/mm/dd",
+            language: "zh-CN",
+            orientation: "top",
+            todayHighlight: true
+        });
+
+        //根据price字段计算支出金额
+        $(':input[name*="price"]').change(function () {
+            var price = $(this).val();
+            // Obtain the selling price from server
+            var quantity = $(':input[name*="quantity"]').val()
+            $(':input[name*="debit"]').val(quantity * price);
+        });
+
+        //根据quantity字段计算支出金额
+        $(':input[name*="quantity"]').change(function () {
+            var quantity = $(this).val();
+            // Obtain the selling price from server
+            var price = $(':input[name*="price"]').val()
+            $(':input[name*="debit"]').val(quantity * price);
+        });
+    });
+</script>
+
+
+
+
+
+
+
+<%= form_for @record, url: book_fee_fee_record_path(@fee.book_id, @record.fee_id, @record.id) do |f| %>
     <% if @record.errors.any? %>
         <div id="error_explanation">
           <h2>更新数据出现问题</h2>
@@ -12,35 +44,51 @@
           </ul>
         </div>
     <% end %>
-    <div class="field" data-title="收入">
-      <%= f.number_field :credit, value: 0, min: 0, max:999999, inputmode:"numeric",:step => '0.01',
-                         pattern:"[0-9]*",
-                         onfocus: "if(this.value == '0') { this.value = ''; }" ,
-                         onblur: "if(this.value == '') { this.value = 0 ; }" %>
-    </div>
-    <div class="field" data-title="支出">
-      <%= f.number_field :quantity, value: 0, min: 0, max: 999999, inputmode: "numeric", :step => '0.01',
-                         pattern:"[0-9]*",
-                         onfocus: "if(this.value == '0') { this.value = ''; }" ,
-                         onblur: "if(this.value == '') { this.value = 0 ; }" %>
-    </div>
-    <div class="field" data-title="支出">
-      <%= f.number_field :pricefeddfdadf, value: 0, min: 0, max: 999999, inputmode: "numeric", :step => '0.01',
-                         pattern: "[0-9]*",
-                         onfocus: "if(this.value == '0') { this.value = ''; }",
-                         onblur: "if(this.value == '') { this.value = 0 ; }" %>
-    </div>
-    <div class="field" data-title="支出">
-      <%= f.number_field :debit, value: 0, min: 0, max: 999999, inputmode: "numeric", :step => '0.01',
-                         pattern: "[0-9]*",
-                         onfocus: "if(this.value == '0') { this.value = ''; }",
-                         onblur: "if(this.value == '') { this.value = 0 ; }" %>
-    </div>
-    <td data-title="备注"> <%= f.text_area :comment%> </td>
 
-    <div class="actions">
-      <%= f.submit '保存', class:'btn btn-primary' %>
+    <div class="row">
+      <div class="col-xs-4" style="text-align:right">
+        <%= f.label "收入" %></div><div class="col-xs-4" >
+        <%= f.number_field :credit %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-4" style="text-align:right">
+        <%= f.label "支出-数量" %></div>
+      <div class="col-xs-4">
+        <%= f.number_field :quantity %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-4" style="text-align:right">
+        <%= f.label "支出-单价" %>
+      </div>
+      <div class="col-xs-4">
+        <%= f.number_field :price %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-4" style="text-align:right">
+        <%= f.label "支出-金额" %>
+      </div>
+      <div class="col-xs-4">
+        <%= f.number_field :debit, readonly: true %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-4" style="text-align:right">
+        <%= f.label "备注" %></div>
+      <div class="col-xs-4">
+        <%= f.text_area :comment %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-4">
+        <%= link_to '返回费项', book_fee_path(@fee.book_id, @record.fee_id), class: 'btn btn-primary' %>
+      </div>
+      <div class="actions col-xs-4">
+        <%= f.submit '保存', class: 'btn btn-primary' %>
+      </div>
     </div>
 <% end %>
-
-
