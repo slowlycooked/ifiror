@@ -10,35 +10,39 @@
           </ul>
         </div>
     <% end %>
-    <div class="row">
+    <div class="row" style="font-size: 20px">
       <div class="col-xs-4" style="text-align:right">
         <%= f.label "应收" %></div>
-      <div class="col-xs-4">
-        <%= f.number_field :debit %>
+      <div class="col-xs-4 numeric">
+        <%= f.number_field :debit,  min: 0, max:999999, inputmode:"numeric",:step => '0.01', pattern:"[0-9]*"%>
       </div>
     </div>
+    <br>
 
-    <div class="row">
+    <div class="row" style="font-size: 20px">
       <div class="col-xs-4" style="text-align:right">
         <%= f.label "已收" %></div>
-      <div class="col-xs-4">
-        <%= f.number_field :credit %>
+      <div class="col-xs-4 numeric">
+        <%= f.number_field :credit, min: 0, max:999999, inputmode:"numeric",:step => '0.01', pattern:"[0-9]*" %>
       </div>
     </div>
-    <div class="row">
+    <br>
+
+    <div class="row" style="font-size: 20px">
       <div class="col-xs-4" style="text-align:right">
         <%= f.label "坏账" %>
       </div>
-      <div class="col-xs-4">
-        <%= f.number_field :bad %>
+      <div class="col-xs-4 numeric">
+        <%= f.number_field :bad , min: 0, max:999999, inputmode:"numeric",:step => '0.01', pattern:"[0-9]*"%>
       </div>
     </div>
+    <br>
 
-    <div class="row">
-      <div class="col-xs-4" >
+    <div class="row" style="font-size: 20px">
+      <div class="col-xs-4" style="text-align:right">
         <%= link_to '返回', customer_path(@record.customer_id), class: 'btn btn-primary' %>
       </div>
-      <div class="actions col-xs-4">
+      <div class="actions col-xs-4" style="text-align:right">
         <%= f.submit '保存', class: 'btn btn-primary' %>
       </div>
     </div>
