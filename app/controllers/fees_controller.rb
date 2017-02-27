@@ -34,6 +34,23 @@ class FeesController < ApplicationController
     end
   end
 
+  def show_daily_trend
+    if Book.find_by_id(params[:book_id])
+      @book = Book.find(params[:book_id])
+      @fee = @book.fees.find(params[:fee_id])
+      @records = @fee.fee_records.where('year(fee_records.updated_at) =?', session[:current_year])
+      @debit_sum = @records.sum("debit")
+      @credit_sum =@records.sum("credit")
+
+      @groupby_date = @records.select(' date(updated_at) as date,
+                             sum(fee_records.credit-fee_records.debit) as income')
+                           .group('date(updated_at)')
+                           .order('date(updated_at) ASC')
+
+    else
+      redirect_to root_path
+    end
+  end
   # GET /fees/new
   def new
     @book = Book.find(params[:book_id])

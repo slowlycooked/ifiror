@@ -18,6 +18,8 @@ Rails.application.routes.draw do
       resources :fee_records
 
       get 'monthly_report', to: 'fees#show_monthly_report'
+
+      get 'daily_trend', to: 'fees#show_daily_trend'
     end
 
     get 'monthly_report', to: 'books#show_monthly_report'

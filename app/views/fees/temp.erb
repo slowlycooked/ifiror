@@ -1,0 +1,2 @@
+//  data: <%= groupby_date = @groupby_date.reject { |o| o.income.nil? }
+              raw groupby_date.map { |o| [o.date.to_formatted_s(:number) , o.income ] }.compact.to_s %>,
