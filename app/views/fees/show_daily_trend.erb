@@ -4,7 +4,7 @@
   <ol class="breadcrumb">
     <li><%= link_to '主页', root_path %></li>
     <li><%= link_to @fee.fee_name, book_fee_path(@book, @fee) %></li>
-    <li class="active"> <%= @fee.fee_name+'月报' %></li>
+    <li class="active"> <%= @fee.fee_name+'日趋势' %></li>
   </ol>
 </div>
 
@@ -13,13 +13,14 @@
 
 
 <script type="text/javascript" charset="utf-8">
-    var processed_json = new Array();
     $(function () {
 
-        var dd = <%= @groupby_date.to_json.html_safe %>;
-
-        for (i = 0; i < dd.length; i++){
-            processed_json.push([dd[i].date, dd[i].income]);
+        daily_ba = <%= raw @daily_balance.to_json %>;
+        var date_json = new Array();
+        var balance_json = new Array();
+        for (i = 0; i < daily_ba.length; i++) {
+            date_json.push(daily_ba[i].date);
+            balance_json.push(daily_ba[i].balance);
         }
 
 
@@ -36,16 +37,10 @@
                 }
             },
             title: {
-                text: "月收支对比报表"
+                text: "日趋势"
             },
             xAxis: {
-                type: 'datetime',
-                dateTimeLabelFormats: { // don't display the dummy year
-                    month: '%e. %b',
-                    year: '%b'
-                },
-
-                title: {text: "日"}
+                categories: date_json
             },
             yAxis: {
                 title: {
@@ -63,10 +58,8 @@
 
             series: [
                 {
-                    name: '支出',
-                    data: <%= groupby_date = @groupby_date.reject { |o| o.income.nil? }
-                 raw groupby_date.map { |o| [o.date.strftime('%s'), o.income ] }.compact.to_s %>,
-
+                    name: '余额',
+                    data: balance_json,
                     color: '#FF3333'
                 }
             ]

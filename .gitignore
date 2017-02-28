@@ -9,6 +9,7 @@ out
 gen### Ruby template
 *.gem
 *.rbc
+*.log
 /.config
 /coverage/
 /InstalledFiles

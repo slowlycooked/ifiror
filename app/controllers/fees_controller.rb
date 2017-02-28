@@ -47,6 +47,15 @@ class FeesController < ApplicationController
                            .group('date(updated_at)')
                            .order('date(updated_at) ASC')
 
+      balance = 0
+
+      @daily_balance = @groupby_date.map do |a|
+        {
+            :date => a.date.to_formatted_s(:number),
+            :balance => balance = balance + a.income
+        }
+      end
+
     else
       redirect_to root_path
     end
