@@ -1,4 +1,4 @@
-class CreateFeeRecords < ActiveRecord::Migration
+class CreateFeeRecords < ActiveRecord::Migration[6.0]
   def change
     create_table :fee_records do |t|
       t.float :credit

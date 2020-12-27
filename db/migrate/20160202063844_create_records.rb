@@ -1,4 +1,4 @@
-class CreateRecords < ActiveRecord::Migration
+class CreateRecords < ActiveRecord::Migration[6.0]
   def change
     create_table :records do |t|
       t.references :customer, index: true, foreign_key: true

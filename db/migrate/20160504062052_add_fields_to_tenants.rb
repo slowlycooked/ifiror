@@ -1,4 +1,4 @@
-class AddFieldsToTenants < ActiveRecord::Migration
+class AddFieldsToTenants < ActiveRecord::Migration[6.0]
   def change
     add_column :tenants, :name, :string
     add_column :tenants, :mobile, :string, :limits => 11, :null => false

@@ -1,5 +1,5 @@
 class WelcomeController < ApplicationController
-  before_filter :authenticate_tenant!
+  before_action :authenticate_tenant!
 
 
 def index
