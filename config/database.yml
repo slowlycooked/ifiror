@@ -8,8 +8,9 @@ default: &default
   adapter: mysql2
   pool: 3306
   host: localhost
-  username: martin
-  #password: Test4321
+  #user name and password is stored in credentials.yml.enc
+  username: <%= Rails.application.credentials.development[:db_username] %>
+  password:  <%= Rails.application.credentials.development[:db_password] %>
 
 # default: &default
 #   adapter: sqlite3
@@ -33,4 +34,6 @@ production:
     adapter: mysql2
     pool: 3306
     host: localhost
-    username: martin
+  #user name and password is stored in credentials.yml.enc
+  username: <%= Rails.application.credentials.production[:db_username] %>
+  password:  <%= Rails.application.credentials.production[:db_password] %>
