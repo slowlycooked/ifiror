@@ -1,7 +1,7 @@
 source 'https://mirrors.tuna.tsinghua.edu.cn/rubygems/'
-#bundle version 1.17.3
+#bundle version 2.17.3
 
-#ruby '2.2.3'
+ruby '2.6.0'
 
 gem 'bootstrap-sass', '~> 3.4.0'
 gem 'autoprefixer-rails'
