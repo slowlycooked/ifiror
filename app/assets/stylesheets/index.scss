@@ -1,9 +1,8 @@
-.fixed-box {
 
+.fixed-box {
   width: 100%;
   min-height: 25px;
   padding-top: 5px;
-  position: fixed;
   top: 0px;
   background-color: black;
   z-index: 10;
@@ -61,4 +60,11 @@
 
 .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
   background-color: #ffdd99;
+}
+
+.alert1 {
+  /* padding: 15px; */
+  /* margin-bottom: 20px; */
+  border: 1px solid transparent;
+  border-radius: 4px;
 }

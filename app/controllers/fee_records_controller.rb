@@ -1,10 +1,10 @@
 class FeeRecordsController < ApplicationController
   def create
-
     @fee = Fee.find(params[:fee_id])
     @record =  @fee.fee_records.create(record_params)
     @fee.update_attribute("updated_at", Time.now)
     redirect_to book_fee_path(@fee.book_id,@fee.id)
+    #binding.pry
   end
 
   def destroy

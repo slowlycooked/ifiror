@@ -30,10 +30,10 @@ test:
   database: ifiror_qas
 
 production:
-    database: ifiror_prd
+    database: ifiror_dev
     adapter: mysql2
     pool: 3306
     host: localhost
-  #user name and password is stored in credentials.yml.enc
-  username: <%= Rails.application.credentials.production[:db_username] %>
-  password:  <%= Rails.application.credentials.production[:db_password] %>
+    #user name and password is stored in credentials.yml.enc
+    username: <%= Rails.application.credentials.production[:db_username] %>
+    password:  <%= Rails.application.credentials.production[:db_password] %>

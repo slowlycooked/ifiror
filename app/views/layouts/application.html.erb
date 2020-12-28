@@ -9,27 +9,15 @@
 
 </head>
 
-<!--
- if (params[:controller] == 'customer' and params[:action]) == 'show' %>
-    <body data-no-turbolink="true">
- else %>
-    <body data-no-turbolink="false">
- end %>
--->
-
 <body data-no-turbolink="false">
 
-<div class="fix_top"></div>
-
 <div id="main-container" class="container">
-  <!--div class="fix_top"></div -->
- 
-  <p class="notice"><%= notice %></p>
-  <p class="alert"><%= alert %></p>
-  <%= yield %>
-
+  <div class="notice"><%= notice %></div><div class="alert1"><%= alert %></div>
   
+  <%= yield %>
 </div>
+
+
 </body>
 
 </html>

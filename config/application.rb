@@ -11,6 +11,8 @@ module Ifiror
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.0
     config.time_zone = 'Beijing'
+    config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
+    config.i18n.default_locale = :'zh-CN'
 
 
     # Settings in config/environments/* take precedence over those specified here.
