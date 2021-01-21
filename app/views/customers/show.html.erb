@@ -48,6 +48,7 @@
       <th>已收</th>
       <th>坏账</th>
       <th>未收</th>
+      <th>备注</th>
       <th colspan="2"></th>
     </tr>
     </thead>
@@ -98,6 +99,8 @@
                                onblur: "if(this.value == '') { this.value = 0 ; }" %>
           </td>
           <td></td>
+          <td data-title="备注"> <%= f.text_field :comment, size: '12' %> </td>
+
           <td colspan="2"> <%= f.submit '保存新记录', class: 'btn btn-primary btn-sm btn-block btn-submit' %></td>
 
       <% end %>
@@ -117,6 +120,7 @@
           <% else %>
               <td class="numeric" data-title="未收"><%= remain %></td>
           <% end %>
+          <td data-title="备注"><%= (!record.comment.nil? and !record.comment.blank?)  ? record.comment : '无' %></td>
 
           <td><%= link_to '编辑', edit_customer_record_path(record.customer_id, record) %></td>
           <td><%= link_to '删除', customer_record_path(record.customer, record), method: :delete, data: {confirm: '确定删除吗？'} %></td>

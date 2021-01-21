@@ -40,7 +40,7 @@ class RecordsController < ApplicationController
 
   private
   def record_params
-    params.require(:record).permit(:book_id,:updated_at, :debit, :credit,:bad)
+    params.require(:record).permit(:book_id,:updated_at, :debit, :credit,:bad,:comment)
   end
 
 

@@ -40,6 +40,16 @@
 
     <div class="row" style="font-size: 20px">
       <div class="col-xs-4" style="text-align:right">
+        <%= f.label "备注" %></div>
+      <div class="col-xs-4" style="width: 80px">
+        <%= f.text_area :comment %>
+      </div>
+    </div>
+    
+    <br>
+
+    <div class="row" style="font-size: 20px">
+      <div class="col-xs-4" style="text-align:right">
         <%= link_to '返回', customer_path(@record.customer_id), class: 'btn btn-primary' %>
       </div>
       <div class="actions col-xs-4" style="text-align:right">
