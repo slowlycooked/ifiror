@@ -1,0 +1,172 @@
+<% content_for :title, @fee.fee_name+'明细' %>
+<script>
+
+    $(document).ready(function () {
+        //日期选择器
+        $('#sandbox-container input').datepicker({
+            format: "yyyy/mm/dd",
+            language: "zh-CN",
+            orientation: "top",
+            todayHighlight: true
+        });
+
+        //根据price字段计算支出金额
+        $(':input[name*="price"]').change(function () {
+            var price = $(this).val();
+            // Obtain the selling price from server
+            var quantity = $(':input[name*="quantity"]').val()
+            $(':input[name*="debit"]').val(quantity * price);
+        });
+
+        //根据quantity字段计算支出金额
+        $(':input[name*="quantity"]').change(function () {
+            var quantity = $(this).val();
+            // Obtain the selling price from server
+            var price = $(':input[name*="price"]').val()
+            $(':input[name*="debit"]').val(quantity * price);
+        });
+    });
+</script>
+
+
+<div class="fixed-box">
+  <ol class="breadcrumb">
+    <li><%= link_to '主页', root_path %></li>
+    <li><%= link_to @book.book_name, book_path(@book) %></li>
+    <li class="active"> <%= @fee.fee_name+'明细' %></li>
+  </ol>
+</div>
+
+<br>
+
+
+
+
+<!--
+<p>
+  <strong>账本名称:</strong>
+  <%= @book.book_name %>
+</p>
+-->
+
+<%= link_to '月报', book_fee_monthly_report_path(@book, @fee), class: 'btn btn-primary' %>
+<%= link_to '日趋势', book_fee_daily_trend_path(@book, @fee), class: 'btn btn-primary' %>
+
+<br><br>
+
+<div id="no-more-tables">
+  <table class="table table-responsive table-striped table-hover table-condensed table-bordered " style="border: 2px solid orange">
+    <thead>
+    <tr>
+      <th>费项</th>
+      <th>收入</th>
+      <th>支出</th>
+      <th>余额</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td class="head_sum" data-title="费项"><%= @fee.fee_name %></td>
+      <td class="head_sum" data-title="收入"><%= @credit_sum.round(2) %></td>
+      <td class="head_sum" data-title="支出"><%= @debit_sum.round(2) %></td>
+      <td class="head_sum" data-title="余额"><%= (@credit_sum-@debit_sum).round(2) %></td>
+    </tr>
+
+    </tbody>
+  </table>
+
+  <table class="table table-responsive table-striped table-hover table-condensed table-bordered ">
+    <thead>
+    <tr>
+      <th>日期</th>
+      <th>收入</th>
+      <th>支出-数量</th>
+      <th>支出-单价</th>
+      <th>支出-金额</th>
+      <th>备注</th>
+      <th colspan="2"></th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr>
+      <%= form_for([@book, @fee, @fee.fee_records.build]) do |f| %>
+
+          <td class="numeric" data-title="日期">
+
+            <!--%= Time.now.strftime('%Y/%m/%d') %-->
+            <div id="sandbox-container" style="font-size: 18px;">
+              <%= f.text_field :updated_at,'data-provide' => 'datepicker',
+                               value: (Time.now.strftime('%Y') > session[:current_year]) ? session[:current_year]+'/12/31': Time.now.strftime('%Y/%m/%d'),
+                               style: ' width:80%;' %>
+            </div>
+
+          </td>
+          <td class="numeric" data-title="收入">
+            <%= f.number_field :credit, value: 0, min: 0, max:999999, inputmode:"numeric",:step => '0.01',
+                               class: 'amount_input',
+                               pattern:"[0-9]*",
+                               onfocus: "if(this.value == '0') { this.value = ''; }" ,
+                               onblur: "if(this.value == '') { this.value = 0 ; }" %>
+          </td>
+          <td class="numeric" data-title="支出-数量">
+            <%= f.number_field :quantity, value: 1, min: 0, max: 999999, inputmode: "numeric", :step => '0.01',
+                               class: 'amount_input',
+                               pattern:"[0-9]*",
+                               onfocus: "if(this.value == '1') { this.value = ''; }",
+                               onblur: "if(this.value == '') { this.value = 1 ; }" %>
+          </td>
+          <td class="numeric" data-title="支出-单价">
+            <%= f.number_field :price, value: 0, min: 0, max: 999999, inputmode: "numeric", :step => '0.01',
+                               class: 'amount_input',
+                               pattern: "[0-9]*",
+                               onfocus: "if(this.value == '0') { this.value = ''; }",
+                               onblur: "if(this.value == '') { this.value = 0 ; }" %>
+          </td>
+          <td class="numeric" data-title="支出-金额">
+            <%= f.number_field :debit, value: 0, min: 0, max: 999999, inputmode: "numeric", :step => '0.01',
+                               class: 'amount_input',
+                               pattern: "[0-9]*",
+                               onfocus: "if(this.value == '0') { this.value = ''; }",
+                               onblur: "if(this.value == '') { this.value = 0 ; }",
+                               readonly: true
+            %>
+          </td>
+          <td data-title="备注"> <%= f.text_field :comment, size: '12' %> </td>
+          <td colspan="2"> <%= f.submit '保存新记录', class: 'btn btn-primary btn-sm btn-block btn-submit' %></td>
+      <% end %>
+    </tr>
+
+
+    <% @records.each do |record| %>
+        <tr>
+          <td class="numeric" data-title="日期">
+            <%= record.updated_at.strftime('%Y/%m/%d') %>
+          </td>
+          <td class="numeric" data-title="收入"><%= record.credit %></td>
+          <td class="numeric" data-title="支出-数量"><%= record.quantity %></td>
+          <td class="numeric" data-title="支出-单价"><%= record.price %></td>
+          <td class="numeric" data-title="支出-金额"><%= record.debit %></td>
+          <td data-title="备注"><%= (!record.comment.nil? and !record.comment.blank?)  ? record.comment : '无' %></td>
+          <td><%= link_to '编辑', edit_book_fee_fee_record_path(@book.id, record.fee_id, record) %></td>
+          <td><%= link_to '删除', book_fee_fee_record_path(@book.id, record.fee_id, record), method: :delete, data: {confirm: '确定删除吗？'} %></td>
+        </tr>
+    <% end %>
+
+
+    </tbody>
+  </table>
+</div>
+<br><br>
+
+
+<div class="row">
+  <div class="col-xs-6">
+    <%= link_to '编辑费项名称', edit_book_fee_path(@book, @fee) %>
+  </div>
+
+  <div class="col-xs-4">
+  <%= link_to '删除费项', book_fee_path, method: :delete, data: {confirm: '确定删除费项吗？将清除该费项所有信息！！'} %>
+</div>
+</div>
+

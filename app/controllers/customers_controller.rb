@@ -17,7 +17,7 @@ class CustomersController < ApplicationController
                                   and left(records.updated_at,4) = ', session[:current_year])
                           .where('customers.tenant_id= ? ', current_tenant.id)
                           .group('customers.id, customers.cname')
-                          .order('customers.updated_at DESC')
+                          .order('customers.id DESC')
 
   end
 
@@ -68,7 +68,7 @@ class CustomersController < ApplicationController
 
     if Customer.find_by_id(params[:id])
       @customer = Customer.find(params[:id])
-      @records = @customer.records.where('left(updated_at,4) =?', session[:current_year]).order("updated_at DESC")
+      @records = @customer.records.where('left(updated_at,4) =?', session[:current_year]).order("id DESC")
       @debit_sum = @records.sum("debit").round(2)
       @credit_sum = @records.sum("credit").round(2)
       @bad_sum = @records.sum("bad").round(2)
