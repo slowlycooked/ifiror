@@ -1,6 +1,3 @@
-<% content_for :title, @customer.cname+'收支信息' %>
-
-
 
 <div class="fixed-box">
    <ol class="breadcrumb">
@@ -9,6 +6,9 @@
       <li class="active"><%= @customer.cname %></li>
    </ol>
 </div>
+
+<% content_for :title, @customer.cname+'收支信息' %>
+
 
 <div class="divTable">
   <%= form_for([@customer, @customer.records.build]) do |f| %>
@@ -73,14 +73,14 @@
 <br>
 <br>
 
-<div class="divTable head_sum">
+<div class="divTable">
    <div class="divTableBody"> 
-      <div class="divTableRow divTableHeading">
+      <div class="sumTable">
          <div class="divTableCell">客户名称</div>
-         <div class="divTableCell">应收</div>
-         <div class="divTableCell">已收</div>
-         <div class="divTableCell">坏账</div>
-         <div class="divTableCell">未收</div>
+         <div class="divTableCell">总应收</div>
+         <div class="divTableCell">总已收</div>
+         <div class="divTableCell">总坏账</div>
+         <div class="divTableCell">总未收</div>
       </div>
       <div class="divTableRow">
          <div class="divTableCell head_sum" data-title="客户名称"><%= @customer.cname %></div>
@@ -99,13 +99,13 @@
 
 <div class="divTable">
    <div class="divTableBody">
-      <div class="divTableRow divTableHeading">
+      <div class="divTableHeading">
          <div class="divTableCell">日期</div>
          <div class="divTableCell">应收</div>
          <div class="divTableCell">已收</div>
          <div class="divTableCell">坏账</div>
          <div class="divTableCell">未收</div>
-         <div class="divTableCell">备注</div>
+         <div class="divTableCell" style="text-align:left">备注</div>
          <div class="divTableCell"></div>
          <div class="divTableCell"></div>
       </div>
@@ -126,7 +126,7 @@
          <% else %>
          <div class="divTableCell numeric" data-title="未收"><%= remain %></div>
          <% end %>
-         <div class="divTableCell" data-title="备注"><%= (!record.comment.nil? and !record.comment.blank?)  ? record.comment : '无' %></div>
+         <div class="divTableCell comment" data-title="备注"><%= (!record.comment.nil? and !record.comment.blank?)  ? record.comment : '无' %></div>
          <div class="divTableCell"><%= link_to '编辑', edit_customer_record_path(record.customer_id, record) %></div>
          <div class="divTableCell"><%= link_to '删除', customer_record_path(record.customer, record), method: :delete, data: {confirm: '确定删除吗？'} %></div>
       </div>

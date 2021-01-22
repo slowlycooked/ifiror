@@ -121,9 +121,9 @@
 <br>
 <br>
 
-<div class="divTable head_sum">
+<div class="divTable ">
    <div class="divTableBody">
-      <div class="divTableRow divTableHeading">
+      <div class="sumTable">
          <div class="divTableCell">费项</div>
          <div class="divTableCell">收入</div>
          <div class="divTableCell">支出</div>
@@ -135,7 +135,6 @@
         <div class="head_sum divTableCell" data-title="支出"><%= @debit_sum.round(2) %></div>
         <div class="head_sum divTableCell" data-title="余额"><%= (@credit_sum-@debit_sum).round(2) %></div>
       </div>
-
     </div>
   </div>
    
@@ -143,7 +142,7 @@
 
 <div class="divTable">
    <div class="divTableBody">
-      <div class="divTableRow divTableHeading">
+      <div class="divTableHeading">
          <div class="divTableCell">日期</div>
          <div class="divTableCell">收入</div>
          <div class="divTableCell">支出-数量</div>
