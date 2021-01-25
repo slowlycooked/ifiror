@@ -55,8 +55,6 @@
             series: [{
                 name: '支出',
                 colorByPoint: true,
-
-                //data: [["柴油", 11650.0], ["快子", 7990.0],["易耗品", 0]]
                 data: <%=
                 group_by_fee_no_nil = @group_by_fee.reject { |o| o.debit.nil? }
                 raw group_by_fee_no_nil.map { |o| [o.fee_name, o.debit ] }.compact.to_s

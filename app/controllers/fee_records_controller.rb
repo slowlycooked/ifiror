@@ -1,10 +1,16 @@
 class FeeRecordsController < ApplicationController
   def create
+    @zone = Time.zone;
+
+    #binding.pry
     @fee = Fee.find(params[:fee_id])
+    #record_params[:created_at]= Time.now
+    #binding.pry
+
     @record =  @fee.fee_records.create(record_params)
     @fee.update_attribute("updated_at", Time.now)
-    redirect_to book_fee_path(@fee.book_id,@fee.id)
     #binding.pry
+    redirect_to book_fee_path(@fee.book_id,@fee.id)
   end
 
   def destroy
