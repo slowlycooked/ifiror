@@ -19,7 +19,8 @@ class Tenant < ActiveRecord::Base
   # Only allow letter, number, underscore and punctuation.
   validates_format_of :mobile, with: /^[0-9\.]*$/, :multiline => true
 
-  has_many :customers
+  has_many :employments
+  has_many :companies, through: :employments
   has_many :books
 
   def email_required?

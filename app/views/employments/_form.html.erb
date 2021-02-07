@@ -1,0 +1,35 @@
+<%= form_with(model: employment, local: true) do |f| %>
+
+
+  <% if employment.errors.any? %>
+
+    <div id="error_explanation">
+      <h2><%= pluralize(employment.errors.count, "error") %> prohibited this employment from being saved:</h2>
+
+      <ul>
+        <% employment.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+
+  <div class="field">
+    <%= f.label '用户名称' %><br>
+    <%= f.text_field :tenant_id, required: true,  value: params[:tenant_id] %>
+  </div>
+  <div class="field">
+    <%= f.label '公司名称' %><br>
+    <%= f.select :company_id,
+                 options_for_select(@companies.all.collect { |p| [p.name, p.id]}),
+                 { :include_blank => true, :disabled=>true },
+                 { style: 'font-size:18px' }
+
+    %>
+  </div>
+  <div class="actions">
+    <%= f.submit '保存', class: 'btn btn-primary' %>
+  </div>
+
+<% end %>

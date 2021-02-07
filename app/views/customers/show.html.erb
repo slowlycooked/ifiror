@@ -1,144 +1,159 @@
-
 <div class="fixed-box">
-   <ol class="breadcrumb">
-      <li><%= link_to '主页', root_path %></li>
-      <li><%= link_to '客户列表', customers_path %></li>
-      <li class="active"><%= @customer.cname %></li>
-   </ol>
+  <ol class="breadcrumb">
+    <li><%= link_to '主页', root_path %></li>
+    <li><%= link_to '客户列表', customers_path %></li>
+    <li class="active"><%= @customer.cname %></li>
+  </ol>
 </div>
 
-<% content_for :title, @customer.cname+'收支信息' %>
+<% content_for :title, @customer.cname + '收支信息' %>
 
-
-<div class="divTable">
-  <%= form_for([@customer, @customer.records.build]) do |f| %>
-    <div id="sandbox-container" class="numeric" data-title="日期">
+<!--如果不是管理员不显示编辑栏-->
+<% if current_tenant.role == 'edit' or current_tenant.role == 'admin' then %>
+  <div class="divTable">
+    <%= form_for([@customer, @customer.records.build]) do |f| %>
+      <div id="sandbox-container" class="numeric" data-title="日期">
         <label for="date_input">日期:</label>
-          <%= f.text_field :updated_at, 'data-provide' => 'datepicker',
-            value: (Time.now.strftime('%Y') > session[:current_year]) ? session[:current_year]+'/12/31': Time.now.strftime('%Y/%m/%d'),
-            style: ' width:90%;',
-            id: 'date_input'
-           %>
-    <script>
-    $(document).ready(function () {
-        $('#sandbox-container input').datepicker({
-            format: "yyyy/mm/dd",
-            language: "zh-CN",
-            todayHighlight: true
-        });
-    });
-</script>
-    </div>
-    <div id="debitdiv" class="numeric" data-title="应收">
-      <label for="debit_input">应收:</label>
-
-      <%= f.number_field :debit, value: 0, min: 0, max:999999, inputmode:"numeric",:step => '0.01',
-          pattern:"[0-9]*",
-          id:'debit_input',
-          style: ' width:90%;',
-          class: 'amount_input',
-          onfocus: "if(this.value == '0') { this.value = ''; }" ,
-          onblur: "if(this.value == '') { this.value = 0 ; }" %>
-    </div>
-    <div class="numeric" data-title="已收">
-      <label for="credit_input">已收:</label>
-      <%= f.number_field :credit, value: 0, min: 0, max:999999, inputmode:"numeric",
-          :step => '0.01',
-          pattern:"[0-9]*",
-          id:'credit_input',
-          style: ' width:90%;',
-          class: 'amount_input',
-          onfocus: "if(this.value == '0') { this.value = ''; }" ,
-          onblur: "if(this.value == '') { this.value = 0 ; }" %>
-    </div>
-    <div class="numeric" data-title="坏账">
-      <label for="bad_input">坏收:</label>
-      <%= f.number_field :bad, value: 0, min: 0, max:999999, inputmode:"numeric",
-          :step => '0.01',
-          pattern:"[0-9]*",
-          id:'bad_input',
-          style: ' width:90%;',
-          class: 'amount_input',
-          onfocus: "if(this.value == '0') { this.value = ''; }",
-          onblur: "if(this.value == '') { this.value = 0 ; }" %>
-    </div>
-    <div class="numeric" data-title="备注" > 
-    <label for="comment_input">备注:</label>
-    <%= f.text_field :comment, id:'comment_input', style: ' width:90%;' %> 
-    </div>
-    <div class="" > <%= f.submit '保存新记录', class: 'btn btn-primary btn-sm btn-block btn-submit' %></div>
-  <% end %>
-</div>
-
-<br>
-<br>
-
-<div class="divTable">
-   <div class="divTableBody"> 
-      <div class="sumTable">
-         <div class="divTableCell">客户名称</div>
-         <div class="divTableCell">总应收</div>
-         <div class="divTableCell">总已收</div>
-         <div class="divTableCell">总坏账</div>
-         <div class="divTableCell">总未收</div>
+        <%= f.text_field :updated_at, 'data-provide' => 'datepicker',
+                         value: (Time.now.strftime('%Y') > session[:current_year]) ? session[:current_year] + '/12/31' : Time.now.strftime('%Y/%m/%d'),
+                         style: ' width:90%;',
+                         id: 'date_input'
+        %>
+        <script>
+            $(document).ready(function () {
+                $('#sandbox-container input').datepicker({
+                    format: "yyyy/mm/dd",
+                    language: "zh-CN",
+                    todayHighlight: true
+                });
+            });
+        </script>
       </div>
-      <div class="divTableRow">
-         <div class="divTableCell head_sum" data-title="客户名称"><%= @customer.cname %></div>
-         <div class="divTableCell head_sum" data-title="应收"><%= @debit_sum %></div>
-         <div class="divTableCell head_sum" data-title="已收"><%= @credit_sum %></div>
-         <div class="divTableCell head_sum" data-title="坏账"><%= @bad_sum %></div>
-         <% if @remain_sum<0 %>
-         <div class="divTableCell head_sum" style="color:red" data-title="未收"><%= @remain_sum %></div>
-         <% else %>
-         <div class="divTableCell head_sum" data-title="未收"><%= @remain_sum %></div>
-         <% end %>
-      </div> 
-   </div>
-</div>
+      <div id="debitdiv" class="numeric" data-title="应收">
+        <label for="debit_input">应收:</label>
+
+        <%= f.number_field :debit, value: 0, min: 0, max: 999999, inputmode: "numeric", :step => '0.01',
+                           pattern: "[0-9]*",
+                           id: 'debit_input',
+                           style: ' width:90%;',
+                           class: 'amount_input',
+                           onfocus: "if(this.value == '0') { this.value = ''; }",
+                           onblur: "if(this.value == '') { this.value = 0 ; }" %>
+      </div>
+      <div class="numeric" data-title="已收">
+        <label for="credit_input">已收:</label>
+        <%= f.number_field :credit, value: 0, min: 0, max: 999999, inputmode: "numeric",
+                           :step => '0.01',
+                           pattern: "[0-9]*",
+                           id: 'credit_input',
+                           style: ' width:90%;',
+                           class: 'amount_input',
+                           onfocus: "if(this.value == '0') { this.value = ''; }",
+                           onblur: "if(this.value == '') { this.value = 0 ; }" %>
+      </div>
+      <div class="numeric" data-title="坏账">
+        <label for="bad_input">坏收:</label>
+        <%= f.number_field :bad, value: 0, min: 0, max: 999999, inputmode: "numeric",
+                           :step => '0.01',
+                           pattern: "[0-9]*",
+                           id: 'bad_input',
+                           style: ' width:90%;',
+                           class: 'amount_input',
+                           onfocus: "if(this.value == '0') { this.value = ''; }",
+                           onblur: "if(this.value == '') { this.value = 0 ; }" %>
+      </div>
+      <div class="numeric" data-title="备注">
+        <label for="comment_input">备注:</label>
+        <%= f.text_field :comment, id: 'comment_input', style: ' width:90%;' %>
+      </div>
+      <div class=""> <%= f.submit '保存新记录', class: 'btn btn-primary btn-sm btn-block btn-submit' %></div>
+    <% end %>
+  </div>
+<% end %>
+
 <br>
 
 <div class="divTable">
-   <div class="divTableBody">
-      <div class="divTableHeading">
-         <div class="divTableCell">日期</div>
-         <div class="divTableCell">应收</div>
-         <div class="divTableCell">已收</div>
-         <div class="divTableCell">坏账</div>
-         <div class="divTableCell">未收</div>
-         <div class="divTableCell" style="text-align:left">备注</div>
-         <div class="divTableCell"></div>
-         <div class="divTableCell"></div>
-      </div>
-      
-        
-
-
-      <% @records.each do |record|
-         remain= (record.credit.to_f - record.debit.to_f + record.bad.to_f).round(2)
-         %>
-      <div class="divTableRow">
-         <div class="divTableCell numeric" data-title="日期"><%= record.updated_at.strftime("%Y/%m/%d") %></div>
-         <div class="divTableCell numeric" data-title="应收"><%= record.debit %></div>
-         <div class="divTableCell numeric" data-title="已收"><%= record.credit %></div>
-         <div class="divTableCell numeric" data-title="坏账"><%= record.bad %></div>
-         <% if remain<0 %>
-         <div class="divTableCell numeric" style="color:red" data-title="未收"><%= remain %></div>
-         <% else %>
-         <div class="divTableCell numeric" data-title="未收"><%= remain %></div>
-         <% end %>
-         <div class="divTableCell comment" data-title="备注"><%= (!record.comment.nil? and !record.comment.blank?)  ? record.comment : '无' %></div>
-         <div class="divTableCell"><%= link_to '编辑', edit_customer_record_path(record.customer_id, record) %></div>
-         <div class="divTableCell"><%= link_to '删除', customer_record_path(record.customer, record), method: :delete, data: {confirm: '确定删除吗？'} %></div>
-      </div>
+  <div class="divTableBody">
+    <div class="sumTable">
+      <div class="divTableCell">客户名称</div>
+      <div class="divTableCell">总应收</div>
+      <div class="divTableCell">总已收</div>
+      <div class="divTableCell">总坏账</div>
+      <div class="divTableCell">总未收</div>
+    </div>
+    <div class="divTableRow">
+      <div class="divTableCell head_sum" data-title="客户名称"><%= @customer.cname %></div>
+      <div class="divTableCell head_sum" data-title="应收"><%= @debit_sum %></div>
+      <div class="divTableCell head_sum" data-title="已收"><%= @credit_sum %></div>
+      <div class="divTableCell head_sum" data-title="坏账"><%= @bad_sum %></div>
+      <% if @remain_sum < 0 %>
+        <div class="divTableCell head_sum" style="color:red" data-title="未收"><%= @remain_sum %></div>
+      <% else %>
+        <div class="divTableCell head_sum" data-title="未收"><%= @remain_sum %></div>
       <% end %>
-   </div>
+    </div>
+  </div>
+</div>
+<br>
+
+<div class="divTable">
+  <div class="divTableBody">
+    <div class="divTableHeading">
+      <div class="divTableCell">日期</div>
+      <div class="divTableCell">应收</div>
+      <div class="divTableCell">已收</div>
+      <div class="divTableCell">坏账</div>
+      <div class="divTableCell">未收</div>
+      <div class="divTableCell" style="text-align:left">备注</div>
+      <div class="divTableCell"></div>
+      <% if current_tenant.role == 'admin' then %>
+        <div class="divTableCell">
+        </div>
+      <% end %>
+    </div>
+
+
+
+
+    <% @records.each do |record|
+      remain = (record.credit.to_f - record.debit.to_f + record.bad.to_f).round(2)
+    %>
+      <div class="divTableRow">
+        <div class="divTableCell numeric" data-title="日期"><%= record.updated_at.strftime("%Y/%m/%d") %></div>
+        <div class="divTableCell numeric" data-title="应收"><%= record.debit %></div>
+        <div class="divTableCell numeric" data-title="已收"><%= record.credit %></div>
+        <div class="divTableCell numeric" data-title="坏账"><%= record.bad %></div>
+        <% if remain < 0 %>
+          <div class="divTableCell numeric" style="color:red" data-title="未收"><%= remain %></div>
+        <% else %>
+          <div class="divTableCell numeric" data-title="未收"><%= remain %></div>
+        <% end %>
+        <div class="divTableCell comment" data-title="备注"><%= (!record.comment.nil? and !record.comment.blank?) ? record.comment : '无' %></div>
+        <div class="divTableCell"><%= link_to '编辑', edit_customer_record_path(record.customer_id, record) %></div>
+        <% if current_tenant.role == 'admin' then %>
+          <div class="divTableCell">
+
+            <%= link_to '删除', customer_record_path(record.customer, record), method: :delete, data: { confirm: '确定删除吗？' } %>
+
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
 </div>
 <br><br>
-<div class="row">
-   <div class="col-xs-6">
+<% if current_tenant.role == 'edit' or current_tenant.role == 'admin' then %>
+
+  <div class="row">
+    <div class="col-xs-6">
       <%= link_to '编辑客户信息', edit_customer_path %>
-   </div>
- <%#   <div class="col-xs-6">
-      <%= link_to '删除客户', customer_path, method: :delete, data: {confirm: '确定删除客户吗？将清除所有的信息'} %>
-   
-</div>
+    </div>
+    <% if current_tenant.role == 'admin' then %>
+
+      <div class="col-xs-6">
+        <%= link_to '删除客户', customer_path, method: :delete, data: { confirm: '确定删除客户吗？将清除所有的信息' } %>
+      </div>
+      </div>
+    <% end %>
+<% end %>

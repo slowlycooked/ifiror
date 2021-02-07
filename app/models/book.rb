@@ -6,7 +6,7 @@ class Book < ActiveRecord::Base
   accepts_nested_attributes_for :fees
   accepts_nested_attributes_for :fee_records
 
-  belongs_to :tenant
+  belongs_to :company
 
 
 

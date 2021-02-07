@@ -1,0 +1,47 @@
+<div class="fixed-box">
+  <ol class="breadcrumb">
+    <li><%= link_to '主页', root_path %></li>
+  </ol>
+</div>
+<div >
+  <%= link_to('登出', destroy_tenant_session_path, :method => :delete, :class => 'btn btn-primary') %>
+</div>
+
+<br>
+<div class=divTable">
+  <% @tenants.each do |r| %>
+    <div class="divTableRow">
+      <div class="divTableCell">
+        <%= r.id %>
+      </div>
+      <div class="divTableCell">
+        <%= r.name %>
+      </div>
+      <div class="divTableCell">
+        <%= r.mobile %>
+      </div>
+      <div class="divTableCell">
+        <%= form_for r, :url => { :controller => :welcome, :action => 'set_role',
+                                  :tenant_id => r.id.to_s },
+                     :html => { :id => "role_select_"+r.id.to_s, :method => "post" } do |f| %>
+
+          <%= f.select :role,
+                       options_for_select(['','admin', 'edit', 'view'], r.role),
+                       {},
+                       { style: 'font-size:18px', onchange: "this.form.submit()" }
+          %>
+
+        <% end %>
+      </div>
+      <div>
+        <%#= check_box_tag "cleaner[city_ids][]", city.id, @cleaner.cities.include?(city) %>
+      </div>
+      <div class="divTableCell">
+        <%= link_to '编辑', employments_path(:tenant_id => r.id) %>
+      </div>
+
+    </div>
+  <% end %>
+
+  </div>
+  <br>

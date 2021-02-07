@@ -2,7 +2,7 @@ class RecordsController < ApplicationController
   def create
     @customer = Customer.find(params[:customer_id])
     @record = @customer.records.new(record_params)
-    @record.tenant_id = @customer.tenant_id
+    #@record.company_id = @customer.company_id
     respond_to do |format|
       if @record.save
         @customer.update_attribute('updated_at', Time.now)

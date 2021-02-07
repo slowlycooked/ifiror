@@ -10,13 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_21_024015) do
+ActiveRecord::Schema.define(version: 2021_02_07_102436) do
 
   create_table "books", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin", force: :cascade do |t|
     t.string "book_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "tenant_id"
+    t.integer "company_id"
+  end
+
+  create_table "companies", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "customers", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin", force: :cascade do |t|
@@ -24,7 +30,14 @@ ActiveRecord::Schema.define(version: 2021_01_21_024015) do
     t.string "phone_no"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "company_id"
+  end
+
+  create_table "employments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.integer "company_id"
     t.integer "tenant_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "fee_records", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin", force: :cascade do |t|
@@ -54,8 +67,8 @@ ActiveRecord::Schema.define(version: 2021_01_21_024015) do
     t.float "bad"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "tenant_id"
     t.text "comment"
+    t.integer "company_id"
     t.index ["customer_id"], name: "index_records_on_customer_id"
   end
 
@@ -78,6 +91,7 @@ ActiveRecord::Schema.define(version: 2021_01_21_024015) do
     t.string "name"
     t.string "mobile", null: false
     t.string "invitation"
+    t.string "role"
     t.index ["email"], name: "index_tenants_on_email", unique: true
     t.index ["reset_password_token"], name: "index_tenants_on_reset_password_token", unique: true
     t.index ["unlock_token"], name: "index_tenants_on_unlock_token", unique: true

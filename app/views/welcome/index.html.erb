@@ -1,21 +1,27 @@
 <div class="row">
   <% if tenant_signed_in? %>
 
-      <div class="col-xs-6">
-        <%= form_for :welcome, :url => {:controller => :welcome, :action => 'set_current_year'},
-                     :html => {:id => 'year_form', :method => "post"} do |f| %>
-            <label style="font-size:18px">年份：</label>
-            <%= f.select :year,
-                         options_for_select(['2020', '2021','2022','2023','2024','2025','2026','2027','2028','2029','2030','2031','2032','2033','2034','2035','2036','2037','2038','2039','2040'], session[:current_year]),
-                         {},
-                         {style: 'font-size:18px', onchange: "this.form.submit()"}
-                         %>
+    <div class="col-xs-6">
+      <%= form_for :welcome, :url => { :controller => :welcome, :action => 'set_current_year' },
+                   :html => { :id => 'year_form', :method => "post" } do |f| %>
+        <label style="font-size:18px">年份：</label>
+        <%= f.select :year,
+                     options_for_select(['2020', '2021', '2022', '2023', '2024', '2025', '2026', '2027', '2028', '2029', '2030', '2031', '2032', '2033', '2034', '2035', '2036', '2037', '2038', '2039', '2040'], session[:current_year]),
+                     {},
+                     { style: 'font-size:18px', onchange: "this.form.submit()" }
+        %>
+      <% end %>
+      <div>Welcome: <%= current_tenant.name   %> ( <%= current_tenant.role %>)</div>
+    </div>
+    <br/>
 
-            <% end %>
-      </div>
-      <div class="col-xs-6" style="text-align: right">
-        <%= link_to('登出', destroy_tenant_session_path, :method => :delete, :class => 'btn btn-primary') %>
-      </div>
+
+    <div class="col-xs-6" style="text-align: right">
+      <% if current_tenant.role == 'admin' then %>
+        <%= link_to '新收支账本', new_book_path, class: 'btn btn-primary' %>
+      <% end %>
+      <%= link_to('登出', destroy_tenant_session_path, :method => :delete, :class => 'btn btn-primary') %>
+    </div>
   <% end %>
 </div>
 
@@ -29,16 +35,15 @@
         <%= link_to '客户应收应付', customers_path %>
       </li>
       <% @books.each do |b| %>
-          <li >
-            <%= link_to b.book_name, book_path(b) %>
-          </li>
+        <li>
+          <%= link_to b.book_name, book_path(b) %>
+        </li>
       <% end %>
-      <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">管理菜单 <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-          <li> <%= link_to '新收支账本', new_book_path %></li>
-        </ul>
-      </li>
+      <% if current_tenant.role == 'admin' then %>
+
+        <li> <%= link_to '管理权限', tenants_roles_path %></li>
+      <% end %>
+
     </ul>
   </nav>
 </div>

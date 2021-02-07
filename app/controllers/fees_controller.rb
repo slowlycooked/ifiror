@@ -77,13 +77,13 @@ class FeesController < ApplicationController
     @book = Book.find(params[:book_id])
     @fee =  @book.fees.create(fee_params)
 
-      if @fee.save
-        redirect_to book_path(@book)
+    if @fee.save
+      redirect_to book_path(@book)
 
-      else
-        render :new
+    else
+      render :new
 
-      end
+    end
   end
 
   # PATCH/PUT /fees/1

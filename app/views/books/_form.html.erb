@@ -4,19 +4,46 @@
       <h2><%= pluralize(@book.errors.count, "error") %> 保存出错了:</h2>
 
       <ul>
-      <% @book.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
+        <% @book.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
       </ul>
     </div>
   <% end %>
+  <div class="divTable">
+    <div class="divTableBody">
+      <div class="divTableRow">
+        <div class="divTableCell">
+          <%= f.label '公司名称' %>
+        </div>
+        <div class="divTableCell">
+          <%= f.select :company_id,
+                       options_for_select(@companies.all.collect { |p| [p.name, p.id] }),
+                       { :include_blank => true },
+                       { style: 'font-size:18px' }
+          %>
+        </div>
+      </div>
+      <div class="divTableRow">
+        <div class="divTableCell">
+          <%= f.label '账本名称' %><br>
+        </div>
+        <div class="divTableCell">
+          <%= f.text_field :book_name %>
+        </div>
+      </div>
+      <div class="divTableRow">
+        <div class="divTableCell">
+          <%= f.submit '保存', class: 'btn btn-primary' %>
+        </div>
+        <div class="divTableCell">
+          <%= link_to '返回', books_path(@book), class: 'btn btn-primary' %>
+        </div>
+      </div>
+    </div>
+  </div>
 
-  <div class="field">
-    <%= f.label '账本名称' %><br>
-    <%= f.text_field :book_name %>
-  </div>
-  <div class="actions">
-    <%= f.submit '保存', class:'btn btn-primary' %>
-    <%= link_to '返回', books_path(@book),  class: 'btn btn-primary'  %>
-  </div>
+
+
+
 <% end %>

@@ -1,4 +1,4 @@
-<% content_for :title, @fee.fee_name+'明细' %>
+<% content_for :title, @fee.fee_name + '明细' %>
 <script>
 
     $(document).ready(function () {
@@ -32,7 +32,7 @@
   <ol class="breadcrumb">
     <li><%= link_to '主页', root_path %></li>
     <li><%= link_to @book.book_name, book_path(@book) %></li>
-    <li class="active"> <%= @fee.fee_name+'明细' %></li>
+    <li class="active"> <%= @fee.fee_name + '明细' %></li>
   </ol>
 </div>
 
@@ -51,120 +51,126 @@
 <%= link_to '月报', book_fee_monthly_report_path(@book, @fee), class: 'btn btn-primary' %>
 <%= link_to '日趋势', book_fee_daily_trend_path(@book, @fee), class: 'btn btn-primary' %>
 
-<br><br>
- <div class="divTable">
-      <%= form_for([@book, @fee, @fee.fee_records.build]) do |f| %>
 
-          <div class="numeric" data-title="日期">
+<div class="divTable">
+  <%= form_for([@book, @fee, @fee.fee_records.build]) do |f| %>
 
-            <!--%= Time.now.strftime('%Y/%m/%d') %-->
-            <div id="sandbox-container">
-              <label for="date_input">日期:</label>
-              <%= f.text_field :updated_at,'data-provide' => 'datepicker',
-                               value: (Time.now.strftime('%Y') > session[:current_year]) ? session[:current_year]+'/12/31': Time.now.strftime('%Y/%m/%d'),
-                               style: ' width:90%;',
-                               id: 'date_input' %>
-            </div>
+    <div class="numeric" data-title="日期">
 
-          </div>
-          <div class="numeric" data-title="收入">
-            <label for="credit_input">收入:</label>
-            <%= f.number_field :credit, value: 0, min: 0, max:999999, inputmode:"numeric",:step => '0.01',
-                               class: 'amount_input',
-                               id:'credit_input',
-                               style: ' width:90%;',                               
-                               pattern:"[0-9]*",
-                               onfocus: "if(this.value == '0') { this.value = ''; }" ,
-                               onblur: "if(this.value == '') { this.value = 0 ; }" %>
-          </div>
-          <div class="numeric" data-title="支出-数量">
-            <label for="quantity_input">支出-数量:</label>
-            <%= f.number_field :quantity, value: 1, min: 0, max: 999999, inputmode: "numeric", :step => '0.01',
-                               class: 'amount_input',
-                               pattern:"[0-9]*",
-                               id: 'quantity_input',
-                               style: ' width:90%;',
-                               onfocus: "if(this.value == '1') { this.value = ''; }",
-                               onblur: "if(this.value == '') { this.value = 1 ; }" %>
-          </div>
-          <div class="numeric" data-title="支出-单价">
-            <label for="price_input">支出-单价:</label>
-            <%= f.number_field :price, value: 0, min: 0, max: 999999, inputmode: "numeric", :step => '0.01',
-                               class: 'amount_input',
-                               id: 'price_input',
-                               style: ' width:90%;', 
-                               pattern: "[0-9]*",
-                               onfocus: "if(this.value == '0') { this.value = ''; }",
-                               onblur: "if(this.value == '') { this.value = 0 ; }" %>
-          </div>
-          <div class="numeric" data-title="支出-金额">
-          <label for="amount_input">支出-金额:</label>
-            <%= f.number_field :debit, value: 0, min: 0, max: 999999, inputmode: "numeric", :step => '0.01',
-                               class: 'amount_input',
-                               id: 'amount_input',
-                               style: ' width:90%;', 
-                               pattern: "[0-9]*",
-                               onfocus: "if(this.value == '0') { this.value = ''; }",
-                               onblur: "if(this.value == '') { this.value = 0 ; }",
-                               readonly: true
-            %>
-          </div>
-          <div class="numeric" data-title="备注"> 
-            <label for="comment_input">备注:</label>
-            <%= f.text_field :comment, id: 'comment_input',style: 'width:90%' %> 
-          </div>
-          <div colspan="2"> <%= f.submit '保存新记录', class: 'btn btn-primary btn-sm btn-block btn-submit' %></div>
-      <% end %>
-    </tr>
+      <!--%= Time.now.strftime('%Y/%m/%d') %-->
+      <div id="sandbox-container">
+        <label for="date_input">日期:</label>
+        <%= f.text_field :updated_at, 'data-provide' => 'datepicker',
+                         value: (Time.now.strftime('%Y') > session[:current_year]) ? session[:current_year] + '/12/31' : Time.now.strftime('%Y/%m/%d'),
+                         style: ' width:90%;',
+                         id: 'date_input' %>
+      </div>
 
+    </div>
+    <div class="numeric" data-title="收入">
+      <label for="credit_input">收入:</label>
+      <%= f.number_field :credit, value: 0, min: 0, max: 999999, inputmode: "numeric", :step => '0.01',
+                         class: 'amount_input',
+                         id: 'credit_input',
+                         style: ' width:90%;',
+                         pattern: "[0-9]*",
+                         onfocus: "if(this.value == '0') { this.value = ''; }",
+                         onblur: "if(this.value == '') { this.value = 0 ; }" %>
+    </div>
+    <div class="numeric" data-title="支出-数量">
+      <label for="quantity_input">支出-数量:</label>
+      <%= f.number_field :quantity, value: 1, min: 0, max: 999999, inputmode: "numeric", :step => '0.01',
+                         class: 'amount_input',
+                         pattern: "[0-9]*",
+                         id: 'quantity_input',
+                         style: ' width:90%;',
+                         onfocus: "if(this.value == '1') { this.value = ''; }",
+                         onblur: "if(this.value == '') { this.value = 1 ; }" %>
+    </div>
+    <div class="numeric" data-title="支出-单价">
+      <label for="price_input">支出-单价:</label>
+      <%= f.number_field :price, value: 0, min: 0, max: 999999, inputmode: "numeric", :step => '0.01',
+                         class: 'amount_input',
+                         id: 'price_input',
+                         style: ' width:90%;',
+                         pattern: "[0-9]*",
+                         onfocus: "if(this.value == '0') { this.value = ''; }",
+                         onblur: "if(this.value == '') { this.value = 0 ; }" %>
+    </div>
+    <div class="numeric" data-title="支出-金额">
+      <label for="amount_input">支出-金额:</label>
+      <%= f.number_field :debit, value: 0, min: 0, max: 999999, inputmode: "numeric", :step => '0.01',
+                         class: 'amount_input',
+                         id: 'amount_input',
+                         style: ' width:90%;',
+                         pattern: "[0-9]*",
+                         onfocus: "if(this.value == '0') { this.value = ''; }",
+                         onblur: "if(this.value == '') { this.value = 0 ; }",
+                         readonly: true
+      %>
+    </div>
+    <div class="numeric" data-title="备注">
+      <label for="comment_input">备注:</label>
+      <%= f.text_field :comment, id: 'comment_input', style: 'width:90%' %>
+    </div>
+    <div colspan="2"> <%= f.submit '保存新记录', class: 'btn btn-primary btn-sm btn-block btn-submit' %></div>
+  <% end %>
+  </tr>
+</div>
 <br>
 <br>
 
 <div class="divTable ">
-   <div class="divTableBody">
-      <div class="sumTable">
-         <div class="divTableCell">费项</div>
-         <div class="divTableCell">收入</div>
-         <div class="divTableCell">支出</div>
-         <div class="divTableCell">余额</div>
-      </div>
-      <div class="divTableRow">
-        <div class="head_sum divTableCell" data-title="费项"><%= @fee.fee_name %></div>
-        <div class="head_sum divTableCell" data-title="收入"><%= @credit_sum.round(2) %></div>
-        <div class="head_sum divTableCell" data-title="支出"><%= @debit_sum.round(2) %></div>
-        <div class="head_sum divTableCell" data-title="余额"><%= (@credit_sum-@debit_sum).round(2) %></div>
-      </div>
+  <div class="divTableBody">
+    <div class="sumTable">
+      <div class="divTableCell">费项</div>
+      <div class="divTableCell">收入</div>
+      <div class="divTableCell">支出</div>
+      <div class="divTableCell">余额</div>
+    </div>
+    <div class="divTableRow">
+      <div class="head_sum divTableCell" data-title="费项"><%= @fee.fee_name %></div>
+      <div class="head_sum divTableCell" data-title="收入"><%= @credit_sum.round(2) %></div>
+      <div class="head_sum divTableCell" data-title="支出"><%= @debit_sum.round(2) %></div>
+      <div class="head_sum divTableCell" data-title="余额"><%= (@credit_sum - @debit_sum).round(2) %></div>
     </div>
   </div>
-   
-   <br>
+</div>
+
+<br>
 
 <div class="divTable">
-   <div class="divTableBody">
-      <div class="divTableHeading">
-         <div class="divTableCell">日期</div>
-         <div class="divTableCell">收入</div>
-         <div class="divTableCell">支出-数量</div>
-         <div class="divTableCell">支出-单价</div>
-         <div class="divTableCell">支出-金额</div>
-         <div class="divTableCell">备注</div>
-         <div class="divTableCell"></div>
-         <div class="divTableCell"></div>
-      </div>
+  <div class="divTableBody">
+    <div class="divTableHeading">
+      <div class="divTableCell">日期</div>
+      <div class="divTableCell">收入</div>
+      <div class="divTableCell">支出-数量</div>
+      <div class="divTableCell">支出-单价</div>
+      <div class="divTableCell">支出-金额</div>
+      <div class="divTableCell">备注</div>
+      <% if current_tenant.role == 'admin' or current_tenant.role == 'editor' then %>
+        <div class="divTableCell"></div>
+        <div class="divTableCell"></div>
+      <% end %>
+    </div>
 
     <% @records.each do |record| %>
-        <div class="divTableRow">
-          <div class="divTableCell numeric" data-title="日期">
-            <%= record.updated_at.strftime('%Y/%m/%d') %>
-          </div>
-          <div class="divTableCell numeric" data-title="收入"><%= record.credit %></div>
-          <div class="divTableCell numeric" data-title="支出-数量"><%= record.quantity %></div>
-          <div class="divTableCell numeric" data-title="支出-单价"><%= record.price %></div>
-          <div class="divTableCell numeric" data-title="支出-金额"><%= record.debit %></div>
-          <div class="divTableCell comment" data-title="备注"><%= (!record.comment.nil? and !record.comment.blank?)  ? record.comment : '无' %></div>
-          <div class="divTableCell "><%= link_to '编辑', edit_book_fee_fee_record_path(@book.id, record.fee_id, record) %></div>
-          <div class="divTableCell "><%= link_to '删除', book_fee_fee_record_path(@book.id, record.fee_id, record), method: :delete, data: {confirm: '确定删除吗？'} %></div>
+      <div class="divTableRow">
+        <div class="divTableCell numeric" data-title="日期">
+          <%= record.updated_at.strftime('%Y/%m/%d') %>
         </div>
+        <div class="divTableCell numeric" data-title="收入"><%= record.credit %></div>
+        <div class="divTableCell numeric" data-title="支出-数量"><%= record.quantity %></div>
+        <div class="divTableCell numeric" data-title="支出-单价"><%= record.price %></div>
+        <div class="divTableCell numeric" data-title="支出-金额"><%= record.debit %></div>
+        <div class="divTableCell comment" data-title="备注"><%= (!record.comment.nil? and !record.comment.blank?) ? record.comment : '无' %></div>
+        <% if current_tenant.role == 'admin' or current_tenant.role == 'editor' then %>
+          <div class="divTableCell ">
+            <%= link_to '编辑', edit_book_fee_fee_record_path(@book.id, record.fee_id, record) %>
+          </div>
+          <div class="divTableCell "><%= link_to '删除', book_fee_fee_record_path(@book.id, record.fee_id, record), method: :delete, data: { confirm: '确定删除吗？' } %></div>
+        <% end %>
+      </div>
     <% end %>
   </div>
 </div>
@@ -172,12 +178,15 @@
 
 
 <div class="row">
-  <div class="col-xs-6">
-    <%= link_to '编辑费项名称', edit_book_fee_path(@book, @fee) %>
-  </div>
-
-  <div class="col-xs-4">
-<%#   <%= link_to '删除费项', book_fee_path, method: :delete, data: {confirm: '确定删除费项吗？将清除该费项所有信息！！'} %>
- </div>
+  <% if current_tenant.role == 'admin' or current_tenant.role == 'editor' then %>
+    <div class="col-xs-6">
+      <%= link_to '编辑费项名称', edit_book_fee_path(@book, @fee) %>
+    </div>
+  <% end %>
+  <% if current_tenant.role == 'admin' then %>
+    <div class="col-xs-4">
+      <%= link_to '删除费项', book_fee_path, method: :delete, data: { confirm: '确定删除费项吗？将清除该费项所有信息！！' } %>
+    </div>
+  <% end %>
 </div>
 

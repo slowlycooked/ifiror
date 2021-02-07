@@ -5,21 +5,33 @@
     <li><%= link_to '主页', root_path %></li>
     <li class="active">客户列表</li>
   </ol>
-  </div>
+</div>
 
 <br>
 
 <div class="row">
   <div class="col-xs-3 col-md-1">
-    <%= link_to '新建客户', new_customer_path, class: 'btn btn-primary' %>
+    <% if current_tenant.role == 'edit' or current_tenant.role == 'admin' then %>
+      <%= link_to '新建客户',
+                  new_customer_path(
+                    :com_id => @companies.collect(&:id).join(','),
+                    :com_name => @companies.collect(&:name).join(',')
+                  ),
+                  class: 'btn btn-primary' %>
+    <% end %>
+  </div>
+  <div class="" style="text-align: right">
+    <%= link_to('登出', destroy_tenant_session_path, :method => :delete, :class => 'btn btn-primary') %>
   </div>
 </div>
 <br>
+
 
 <table class="table table-responsive table-striped table-hover table-condensed table-bordered">
 
   <thead>
   <tr class="sumTable">
+    <th>公司号</th>
     <th>应收</th>
     <th>已收</th>
     <th class="hidden-xs hidden-sm">坏账</th>
@@ -27,31 +39,36 @@
   </tr>
   </thead>
   <tbody>
-  <tr>
-    <%
-       #assing values to credit debit and bad test if they are nil
-       cr = @customer_total[0].credit.nil? ? 0 : @customer_total[0].credit
-       de = @customer_total[0].debit.nil? ? 0 : @customer_total[0].debit
-       bad = @customer_total[0].bad.nil? ? 0 : @customer_total[0].bad
-    %>
 
-    <td class="head_sum"><%= de.round(2) %></td>
-    <td class="head_sum"><%= cr.round(2) %></td>
-    <td class="head_sum hidden-xs hidden-sm"><%= bad.round(2) %></td>
 
-    <% if cr - de + bad <0 %>
+  <% @customer_total.each do |rec|
+    #assing values to credit debit and bad test if they are nil
+    cr = rec.credit.nil? ? 0 : rec.credit
+    de = rec.debit.nil? ? 0 : rec.debit
+    bad = rec.bad.nil? ? 0 : rec.bad
+  %>
+    <tr>
+      <td class=""><%= rec.name %></td>
+      <td class="head_sum"><%= de.round(2) %></td>
+      <td class="head_sum"><%= cr.round(2) %></td>
+      <td class="head_sum hidden-xs hidden-sm"><%= bad.round(2) %></td>
+
+      <% if cr - de + bad < 0 %>
         <td class="head_sum" style="color:red"><%= (cr - de + bad).round(2) %></td>
-    <% else %>
+      <% else %>
         <td class="head_sum"><%= (cr - de + bad).round(2) %></td>
-    <% end %>
+      <% end %>
+    </tr>
+  <% end %>
 
-  </tr>
+
   </tbody>
 </table>
 
 <table class="table table-responsive table-striped table-hover table-condensed table-bordered ">
   <thead>
-  <tr class="tableheader">
+  <tr class="tableHeader">
+    <th>公司名</th>
     <th>客户号</th>
     <th>客户名</th>
     <th>应收</th>
@@ -63,24 +80,25 @@
 
   <tbody>
   <%
-     @customer_group.each do |rec|
-       cr = rec.credit.nil? ? 0 : rec.credit
-       de = rec.debit.nil? ? 0 : rec.debit
-       bad = rec.bad.nil? ? 0 : rec.bad
-       remain = cr - de + bad
+    @customer_group.each do |rec|
+      cr = rec.credit.nil? ? 0 : rec.credit
+      de = rec.debit.nil? ? 0 : rec.debit
+      bad = rec.bad.nil? ? 0 : rec.bad
+      remain = cr - de + bad
   %>
-      <tr>
+    <tr>
+      <td class=""><%= rec.name %></td>
       <td class="numeric"><%= rec.id %></td>
-        <td><%= link_to rec.cname , customer_path(rec.id) %></td>
-        <td class="numeric"><%= de.to_f.round(2) %></td>
-        <td class="numeric"><%= cr.to_f.round(2) %></td>
-        <td class="numeric hidden-xs hidden-sm"><%= bad.to_f.round(2) %></td>
-        <% if remain<0 %>
-            <td class="numeric" style="color:red"><%= remain.to_f.round(2) %></td>
-        <% else %>
-            <td class="numeric"><%= remain.to_f.round(2) %></td>
-        <% end %>
-      </tr>
+      <td><%= link_to rec.cname, customer_path(rec.id) %></td>
+      <td class="numeric"><%= de.to_f.round(2) %></td>
+      <td class="numeric"><%= cr.to_f.round(2) %></td>
+      <td class="numeric hidden-xs hidden-sm"><%= bad.to_f.round(2) %></td>
+      <% if remain < 0 %>
+        <td class="numeric" style="color:red"><%= remain.to_f.round(2) %></td>
+      <% else %>
+        <td class="numeric"><%= remain.to_f.round(2) %></td>
+      <% end %>
+    </tr>
   <% end %>
 
   </tbody>

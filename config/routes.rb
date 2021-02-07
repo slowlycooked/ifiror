@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :employments
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 
   # The priority is based upon order of creation: first created -> highest priority.
@@ -8,6 +9,9 @@ Rails.application.routes.draw do
   root 'welcome#index'
 
   post 'welcome', to: 'welcome#set_current_year'
+
+  get 'tenants/roles', to: 'welcome#roles'
+  post 'tenants/roles', to: 'welcome#set_role'
 
   resources :customers do
     resources :records

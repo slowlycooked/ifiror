@@ -1,6 +1,7 @@
 class Customer < ActiveRecord::Base
-  validates :cname, presence: true, uniqueness: {scope: :tenant}
+  validates :cname, presence: true, uniqueness: {scope: :company}
 
   has_many :records, dependent: :destroy
-  belongs_to :tenant
+  belongs_to :company
+
 end

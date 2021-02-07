@@ -11,9 +11,12 @@
 <br>
 
 <div class="row">
-  <div class="col-xs-3 col-md-1">
-    <%= link_to '新建费项', new_book_fee_path(@book), class: 'btn btn-primary' %>
-  </div>
+  <% if current_tenant.role == 'admin' or current_tenant.role == 'editor' then %>
+    <div class="col-xs-3 col-md-1">
+      <%= link_to '新建费项', new_book_fee_path(@book), class: 'btn btn-primary' %>
+    </div>
+  <% end %>
+
   <div class="col-xs-3 col-md-1">
     <%= link_to '月报', book_monthly_report_path(@book), class: 'btn btn-primary' %>
   </div>
@@ -96,22 +99,23 @@
 
   <tbody>
   <%
-     @group_by_fee.each do |rec|
-       de = rec.debit.to_f.round(2)
-       cr = rec.credit.to_f.round(2)
-       #cr = rec.fee_records.where('left(fee_records.updated_at,4) =?', session[:current_year]).sum('credit')
+    @group_by_fee.each do |rec|
+      de = rec.debit.to_f.round(2)
+      cr = rec.credit.to_f.round(2)
+      #cr = rec.fee_records.where('left(fee_records.updated_at,4) =?', session[:current_year]).sum('credit')
   %>
-      <tr>
-        <td data-title="费项"><%= link_to rec.fee_name, book_fee_path(rec.book_id, rec.id) %></td>
-        <td class="numeric" data-title="收入"><%= cr %></td>
-        <td class="numeric" data-title="支出"><%= de %></td>
-      </tr>
+    <tr>
+      <td data-title="费项"><%= link_to rec.fee_name, book_fee_path(rec.book_id, rec.id) %></td>
+      <td class="numeric" data-title="收入"><%= cr %></td>
+      <td class="numeric" data-title="支出"><%= de %></td>
+    </tr>
   <% end %>
 
   </tbody>
 </table>
-<br><br>
-<%# = link_to '删除账本', book_path, method: :delete, data: {confirm: '确定删除吗？将清除该账本所有信息！！'} %>
+<% if current_tenant.role == 'admin' then %>
+  <%= link_to '删除账本', book_path, method: :delete, data: { confirm: '确定删除吗？将清除该账本所有信息！！' } %>
+<% end %>
 
 
 

@@ -86,7 +86,7 @@
   max-width: 300px;
 }
 
-.tableheader{
+.tableHeader{
   background-color: #EEE;
   text-align: center;
   font-size: 18px;
@@ -130,9 +130,10 @@
   font-weight: bolder;	
 }
 .divTableCell {
-  border: 1px solid #ddd;
+    border: 1px solid #ddd;
 	display: table-cell;
 	padding: 3px 10px;
+    text-align: left;
 }
 
 .divTableBody {

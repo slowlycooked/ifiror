@@ -1,23 +1,30 @@
 class CustomersController < ApplicationController
-  before_action :set_customer, only: [:show, :edit, :update, :destroy]
+  before_action :set_customer, only: [:new, :show, :edit, :update, :destroy]
 
   def index
-    # @customers = Customer
-    #     .joins('LEFT OUTER JOIN records on customers.id = records.customer_id
-    #         and left(records.updated_at,4) = ', session[:current_year])
-    #     .where('customers.tenant_id= ? ', current_tenant.id)
-    #                  .order('records.updated_at DESC').uniq
-    @customer_total = Record.select('sum(credit) credit, sum(debit) debit, sum(bad) bad')
-                          .where('tenant_id =? and left(records.updated_at,4) = ?',
-                                 current_tenant.id, session[:current_year]).to_a
+    @companies = Company.joins(:employments)
+                        .where("tenant_id = ?", current_tenant.id)
 
-    @customer_group = Customer.select('customers.id, customers.cname, sum(records.credit) as credit,
+    @company_ids = @companies.collect(&:id)
+    @customer_ids = Customer.where("company_id in (?) ", @company_ids).collect(&:id)
+
+    @customer_total = Record.select('com.name, sum(credit) credit, sum(debit) debit, sum(bad) bad')
+                            .joins('INNER JOIN customers c on records.customer_id = c.id')
+                            .joins('INNER JOIN companies com on c.company_id = com.id ')
+                            .where('customer_id in (?)  and left(records.updated_at,4) = ?',
+                                   @customer_ids, session[:current_year])
+                            .group('com.name')
+
+
+    @customer_group = Customer.select('com.name, customers.id, customers.cname, sum(records.credit) as credit,
                                 sum(records.debit) as debit, sum(records.bad) as bad')
-                          .joins('LEFT OUTER JOIN records on customers.id = records.customer_id
+                              .joins('LEFT OUTER JOIN records on customers.id = records.customer_id
                                   and left(records.updated_at,4) = ', session[:current_year])
-                          .where('customers.tenant_id= ? ', current_tenant.id)
-                          .group('customers.id, customers.cname')
-                          .order('customers.id DESC')
+                              .joins('INNER JOIN companies com on customers.company_id = com.id ')
+                              .where('customers.company_id in (?) ', @company_ids)
+                              .group('com.name, customers.id, customers.cname')
+                              .order('customers.id asc')
+    #binding.pry
 
   end
 
@@ -26,9 +33,10 @@ class CustomersController < ApplicationController
   end
 
   def create
+
     #render plain: params[:customer].inspect
     @customer = Customer.new(customer_params)
-    @customer.tenant_id = current_tenant.id
+
     respond_to do |format|
       if @customer.save
         format.html { redirect_to @customer, notice: '客户创建成功.' }
@@ -38,7 +46,6 @@ class CustomersController < ApplicationController
         #format.json { render json: @customer.errors, status: :unprocessable_entity }
       end
     end
-
 
   end
 
@@ -87,14 +94,20 @@ class CustomersController < ApplicationController
     redirect_to customers_path
   end
 
-
   private
+
+
+
   # Use callbacks to share common setup or constraints between actions.
   def set_customer
+    #binding.pry
+    @companies = Company.joins(:employments).where("tenant_id = ?", current_tenant.id)
     @customer = Customer.find_by_id(params[:id])
+
   end
+
   def customer_params
-    params.require(:customer).permit(:cname, :phone_no)
+    params.require(:customer).permit(:cname, :phone_no, :company_id)
   end
 
 end

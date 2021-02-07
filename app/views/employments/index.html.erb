@@ -1,0 +1,36 @@
+<p id="notice"><%= notice %></p>
+<div class="fixed-box">
+  <ol class="breadcrumb">
+    <li><%= link_to '主页', root_path %></li>
+    <li class="active">Employment</li>
+  </ol>
+</div>
+<h1>Employments</h1>
+
+<div class="divTable">
+  <div class="divTableBody">
+    <div class="divTableHeading">
+
+      <div class="divTableCell">USER_ID</div>
+      <div class="divTableCell">tenant_name</div>
+      <div class="divTableCell">COMPANY_ID</div>
+      <div class="divTableCell">company_name</div>
+      <div class="divTableCell"></div>
+    </div>
+
+    <% @employments.each do |emp| %>
+      <div class="divTableRow">
+        <div class="divTableCell"><%= emp.tenant_id %></div>
+        <div class="divTableCell"><%= emp.tenant_name %></div>
+        <div class="divTableCell"><%= emp.company_id %></div>
+        <div class="divTableCell"><%= emp.company_name %></div>
+        <div class="divTableCell"><%= link_to 'Destroy', emp, method: :delete, data: { confirm: 'Are you sure?' } %></div>
+      </div>
+    <% end %>
+  </div>
+
+</div>
+
+<br>
+
+<%= link_to 'New Employment', new_employment_path(:tenant_id => params[:tenant_id] ) %>
