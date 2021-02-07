@@ -107,7 +107,7 @@
       <div class="divTableCell">未收</div>
       <div class="divTableCell" style="text-align:left">备注</div>
       <div class="divTableCell"></div>
-      <% if current_tenant.role == 'admin' then %>
+      <% if current_tenant.role == 'edit' or current_tenant.role == 'admin' then %>
         <div class="divTableCell">
         </div>
       <% end %>
@@ -131,11 +131,9 @@
         <% end %>
         <div class="divTableCell comment" data-title="备注"><%= (!record.comment.nil? and !record.comment.blank?) ? record.comment : '无' %></div>
         <div class="divTableCell"><%= link_to '编辑', edit_customer_record_path(record.customer_id, record) %></div>
-        <% if current_tenant.role == 'admin' then %>
+        <% if current_tenant.role == 'edit' or current_tenant.role == 'admin' then %>
           <div class="divTableCell">
-
             <%= link_to '删除', customer_record_path(record.customer, record), method: :delete, data: { confirm: '确定删除吗？' } %>
-
           </div>
         <% end %>
       </div>
@@ -144,16 +142,16 @@
 </div>
 <br><br>
 <% if current_tenant.role == 'edit' or current_tenant.role == 'admin' then %>
-
   <div class="row">
     <div class="col-xs-6">
       <%= link_to '编辑客户信息', edit_customer_path %>
     </div>
-    <% if current_tenant.role == 'admin' then %>
+<% end %>
+<% if current_tenant.role == 'admin' then %>
 
-      <div class="col-xs-6">
-        <%= link_to '删除客户', customer_path, method: :delete, data: { confirm: '确定删除客户吗？将清除所有的信息' } %>
-      </div>
-      </div>
-    <% end %>
+  <div class="col-xs-6">
+    <%= link_to '删除客户', customer_path, method: :delete, data: { confirm: '确定删除客户吗？将清除所有的信息' } %>
+  </div>
+  </div>
+
 <% end %>

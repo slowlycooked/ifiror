@@ -148,7 +148,7 @@
       <div class="divTableCell">支出-单价</div>
       <div class="divTableCell">支出-金额</div>
       <div class="divTableCell">备注</div>
-      <% if current_tenant.role == 'admin' or current_tenant.role == 'editor' then %>
+      <% if current_tenant.role == 'admin' or current_tenant.role == 'edit' then %>
         <div class="divTableCell"></div>
         <div class="divTableCell"></div>
       <% end %>
@@ -164,11 +164,14 @@
         <div class="divTableCell numeric" data-title="支出-单价"><%= record.price %></div>
         <div class="divTableCell numeric" data-title="支出-金额"><%= record.debit %></div>
         <div class="divTableCell comment" data-title="备注"><%= (!record.comment.nil? and !record.comment.blank?) ? record.comment : '无' %></div>
-        <% if current_tenant.role == 'admin' or current_tenant.role == 'editor' then %>
+        <% if current_tenant.role == 'admin' or current_tenant.role == 'edit' then %>
           <div class="divTableCell ">
             <%= link_to '编辑', edit_book_fee_fee_record_path(@book.id, record.fee_id, record) %>
           </div>
-          <div class="divTableCell "><%= link_to '删除', book_fee_fee_record_path(@book.id, record.fee_id, record), method: :delete, data: { confirm: '确定删除吗？' } %></div>
+          <div class="divTableCell ">
+            <%= link_to '删除', book_fee_fee_record_path(@book.id, record.fee_id, record), method: :delete, data: { confirm: '确定删除吗？' } %>
+          </div>
+
         <% end %>
       </div>
     <% end %>
@@ -178,7 +181,7 @@
 
 
 <div class="row">
-  <% if current_tenant.role == 'admin' or current_tenant.role == 'editor' then %>
+  <% if current_tenant.role == 'admin' or current_tenant.role == 'edit' then %>
     <div class="col-xs-6">
       <%= link_to '编辑费项名称', edit_book_fee_path(@book, @fee) %>
     </div>

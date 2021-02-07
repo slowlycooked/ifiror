@@ -10,6 +10,7 @@ class BooksController < ApplicationController
   end
 
   def show
+
     if Book.find_by_id(params[:id])
       @book = Book.find_by_id(params[:id])
       @fees = @book.fees
