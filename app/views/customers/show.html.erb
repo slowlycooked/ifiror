@@ -106,8 +106,8 @@
       <div class="divTableCell">坏账</div>
       <div class="divTableCell">未收</div>
       <div class="divTableCell" style="text-align:left">备注</div>
-      <div class="divTableCell"></div>
       <% if current_tenant.role == 'edit' or current_tenant.role == 'admin' then %>
+        <div class="divTableCell"></div>
         <div class="divTableCell">
         </div>
       <% end %>
@@ -130,8 +130,9 @@
           <div class="divTableCell numeric" data-title="未收"><%= remain %></div>
         <% end %>
         <div class="divTableCell comment" data-title="备注"><%= (!record.comment.nil? and !record.comment.blank?) ? record.comment : '无' %></div>
-        <div class="divTableCell"><%= link_to '编辑', edit_customer_record_path(record.customer_id, record) %></div>
         <% if current_tenant.role == 'edit' or current_tenant.role == 'admin' then %>
+        <div class="divTableCell"><%= link_to '编辑', edit_customer_record_path(record.customer_id, record) %></div>
+
           <div class="divTableCell">
             <%= link_to '删除', customer_record_path(record.customer, record), method: :delete, data: { confirm: '确定删除吗？' } %>
           </div>

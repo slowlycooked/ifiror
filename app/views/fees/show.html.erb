@@ -53,69 +53,71 @@
 
 
 <div class="divTable">
-  <%= form_for([@book, @fee, @fee.fee_records.build]) do |f| %>
 
-    <div class="numeric" data-title="日期">
+  <% if current_tenant.role == 'edit' or current_tenant.role == 'admin' then %>
+    <%= form_for([@book, @fee, @fee.fee_records.build]) do |f| %>
 
-      <!--%= Time.now.strftime('%Y/%m/%d') %-->
-      <div id="sandbox-container">
-        <label for="date_input">日期:</label>
-        <%= f.text_field :updated_at, 'data-provide' => 'datepicker',
-                         value: (Time.now.strftime('%Y') > session[:current_year]) ? session[:current_year] + '/12/31' : Time.now.strftime('%Y/%m/%d'),
-                         style: ' width:90%;',
-                         id: 'date_input' %>
+      <div class="numeric" data-title="日期">
+
+        <!--%= Time.now.strftime('%Y/%m/%d') %-->
+        <div id="sandbox-container">
+          <label for="date_input">日期:</label>
+          <%= f.text_field :updated_at, 'data-provide' => 'datepicker',
+                           value: (Time.now.strftime('%Y') > session[:current_year]) ? session[:current_year] + '/12/31' : Time.now.strftime('%Y/%m/%d'),
+                           style: ' width:90%;',
+                           id: 'date_input' %>
+        </div>
+
       </div>
-
-    </div>
-    <div class="numeric" data-title="收入">
-      <label for="credit_input">收入:</label>
-      <%= f.number_field :credit, value: 0, min: 0, max: 999999, inputmode: "numeric", :step => '0.01',
-                         class: 'amount_input',
-                         id: 'credit_input',
-                         style: ' width:90%;',
-                         pattern: "[0-9]*",
-                         onfocus: "if(this.value == '0') { this.value = ''; }",
-                         onblur: "if(this.value == '') { this.value = 0 ; }" %>
-    </div>
-    <div class="numeric" data-title="支出-数量">
-      <label for="quantity_input">支出-数量:</label>
-      <%= f.number_field :quantity, value: 1, min: 0, max: 999999, inputmode: "numeric", :step => '0.01',
-                         class: 'amount_input',
-                         pattern: "[0-9]*",
-                         id: 'quantity_input',
-                         style: ' width:90%;',
-                         onfocus: "if(this.value == '1') { this.value = ''; }",
-                         onblur: "if(this.value == '') { this.value = 1 ; }" %>
-    </div>
-    <div class="numeric" data-title="支出-单价">
-      <label for="price_input">支出-单价:</label>
-      <%= f.number_field :price, value: 0, min: 0, max: 999999, inputmode: "numeric", :step => '0.01',
-                         class: 'amount_input',
-                         id: 'price_input',
-                         style: ' width:90%;',
-                         pattern: "[0-9]*",
-                         onfocus: "if(this.value == '0') { this.value = ''; }",
-                         onblur: "if(this.value == '') { this.value = 0 ; }" %>
-    </div>
-    <div class="numeric" data-title="支出-金额">
-      <label for="amount_input">支出-金额:</label>
-      <%= f.number_field :debit, value: 0, min: 0, max: 999999, inputmode: "numeric", :step => '0.01',
-                         class: 'amount_input',
-                         id: 'amount_input',
-                         style: ' width:90%;',
-                         pattern: "[0-9]*",
-                         onfocus: "if(this.value == '0') { this.value = ''; }",
-                         onblur: "if(this.value == '') { this.value = 0 ; }",
-                         readonly: true
-      %>
-    </div>
-    <div class="numeric" data-title="备注">
-      <label for="comment_input">备注:</label>
-      <%= f.text_field :comment, id: 'comment_input', style: 'width:90%' %>
-    </div>
-    <div colspan="2"> <%= f.submit '保存新记录', class: 'btn btn-primary btn-sm btn-block btn-submit' %></div>
+      <div class="numeric" data-title="收入">
+        <label for="credit_input">收入:</label>
+        <%= f.number_field :credit, value: 0, min: 0, max: 999999, inputmode: "numeric", :step => '0.01',
+                           class: 'amount_input',
+                           id: 'credit_input',
+                           style: ' width:90%;',
+                           pattern: "[0-9]*",
+                           onfocus: "if(this.value == '0') { this.value = ''; }",
+                           onblur: "if(this.value == '') { this.value = 0 ; }" %>
+      </div>
+      <div class="numeric" data-title="支出-数量">
+        <label for="quantity_input">支出-数量:</label>
+        <%= f.number_field :quantity, value: 1, min: 0, max: 999999, inputmode: "numeric", :step => '0.01',
+                           class: 'amount_input',
+                           pattern: "[0-9]*",
+                           id: 'quantity_input',
+                           style: ' width:90%;',
+                           onfocus: "if(this.value == '1') { this.value = ''; }",
+                           onblur: "if(this.value == '') { this.value = 1 ; }" %>
+      </div>
+      <div class="numeric" data-title="支出-单价">
+        <label for="price_input">支出-单价:</label>
+        <%= f.number_field :price, value: 0, min: 0, max: 999999, inputmode: "numeric", :step => '0.01',
+                           class: 'amount_input',
+                           id: 'price_input',
+                           style: ' width:90%;',
+                           pattern: "[0-9]*",
+                           onfocus: "if(this.value == '0') { this.value = ''; }",
+                           onblur: "if(this.value == '') { this.value = 0 ; }" %>
+      </div>
+      <div class="numeric" data-title="支出-金额">
+        <label for="amount_input">支出-金额:</label>
+        <%= f.number_field :debit, value: 0, min: 0, max: 999999, inputmode: "numeric", :step => '0.01',
+                           class: 'amount_input',
+                           id: 'amount_input',
+                           style: ' width:90%;',
+                           pattern: "[0-9]*",
+                           onfocus: "if(this.value == '0') { this.value = ''; }",
+                           onblur: "if(this.value == '') { this.value = 0 ; }",
+                           readonly: true
+        %>
+      </div>
+      <div class="numeric" data-title="备注">
+        <label for="comment_input">备注:</label>
+        <%= f.text_field :comment, id: 'comment_input', style: 'width:90%' %>
+      </div>
+      <div colspan="2"> <%= f.submit '保存新记录', class: 'btn btn-primary btn-sm btn-block btn-submit' %></div>
+    <% end %>
   <% end %>
-  </tr>
 </div>
 <br>
 <br>
