@@ -26,59 +26,62 @@
 </div>
 <br>
 
-
-<table class="table table-responsive table-striped table-hover table-condensed table-bordered">
-
-  <thead>
-  <tr class="sumTable">
-    <th>公司号</th>
-    <th>应收</th>
-    <th>已收</th>
-    <th class="hidden-xs hidden-sm">坏账</th>
-    <th>未收</th>
-  </tr>
-  </thead>
-  <tbody>
+<div class="table sumTable">
+  <div class="theader ">
+    <div class="table_header">公司</div>
+    <div class="table_header">应收</div>
+    <div class="table_header">已收</div>
+    <div class="table_header">坏账</div>
+    <div class="table_header">未收</div>
+  </div>
 
 
   <% @customer_total.each do |rec|
     #assing values to credit debit and bad test if they are nil
+
     cr = rec.credit.nil? ? 0 : rec.credit
     de = rec.debit.nil? ? 0 : rec.debit
     bad = rec.bad.nil? ? 0 : rec.bad
   %>
-    <tr>
-      <td class=""><%= rec.name %></td>
-      <td class="head_sum"><%= de.round(2) %></td>
-      <td class="head_sum"><%= cr.round(2) %></td>
-      <td class="head_sum hidden-xs hidden-sm"><%= bad.round(2) %></td>
-
-      <% if cr - de + bad < 0 %>
-        <td class="head_sum" style="color:red"><%= (cr - de + bad).round(2) %></td>
-      <% else %>
-        <td class="head_sum"><%= (cr - de + bad).round(2) %></td>
-      <% end %>
-    </tr>
+    <div class="table_row">
+      <div class='table_small'>
+        <div class='table_cell'>公司</div>
+        <div class="table_cell" data-title="公司"><%= rec.name %></div>
+      </div>
+      <div class='table_small'>
+        <div class='table_cell'>应收</div>
+        <div class="table_cell" data-title="应收"><%= de.round(2) %></div>
+      </div>
+      <div class='table_small'>
+        <div class='table_cell'>已收</div>
+        <div class="table_cell" data-title="已收"><%= cr.round(2) %></div>
+      </div>
+      <div class='table_small'>
+        <div class='table_cell'>坏账</div>
+        <div class="table_cell" data-title="坏账"><%= bad.round(2) %></div>
+      </div>
+      <div class='table_small'>
+        <div class='table_cell'>未收</div>
+        <div class="table_cell" data-title="未收" <% if cr - de + bad < 0%> style="color:red" <% end %> ><%= (cr - de + bad).round(2) %></div>
+      </div>
+    </div>
   <% end %>
 
 
-  </tbody>
-</table>
+</div>
 
-<table class="table table-responsive table-striped table-hover table-condensed table-bordered ">
-  <thead>
-  <tr class="tableHeader">
-    <th>公司名</th>
-    <th>客户号</th>
-    <th>客户名</th>
-    <th>应收</th>
-    <th>已收</th>
-    <th class="hidden-xs hidden-sm">坏账</th>
-    <th>未收</th>
-  </tr>
-  </thead>
+<div class="table listTable">
+  <div class="theader">
+    <div class="table_header">公司</div>
+    <div class="table_header">客户号</div>
+    <div class="table_header">客户</div>
+    <div class="table_header">应收</div>
+    <div class="table_header">已收</div>
+    <div class="table_header">坏账</div>
+    <div class="table_header">未收</div>
+  </div>
 
-  <tbody>
+
   <%
     @customer_group.each do |rec|
       cr = rec.credit.nil? ? 0 : rec.credit
@@ -86,20 +89,36 @@
       bad = rec.bad.nil? ? 0 : rec.bad
       remain = cr - de + bad
   %>
-    <tr>
-      <td class=""><%= rec.name %></td>
-      <td class="numeric"><%= rec.id %></td>
-      <td><%= link_to rec.cname, customer_path(rec.id) %></td>
-      <td class="numeric"><%= de.to_f.round(2) %></td>
-      <td class="numeric"><%= cr.to_f.round(2) %></td>
-      <td class="numeric hidden-xs hidden-sm"><%= bad.to_f.round(2) %></td>
-      <% if remain < 0 %>
-        <td class="numeric" style="color:red"><%= remain.to_f.round(2) %></td>
-      <% else %>
-        <td class="numeric"><%= remain.to_f.round(2) %></td>
-      <% end %>
-    </tr>
+    <div class="table_row">
+      <div class='table_small'>
+        <div class='table_cell'>公司</div>
+        <div class="table_cell" data-title="公司"><%= rec.name %></div>
+      </div>
+      <div class='table_small'>
+        <div class='table_cell'>客户号</div>
+        <div class="table_cell" data-title="客户号"><%= rec.id %></div>
+      </div>
+      <div class='table_small'>
+        <div class='table_cell'>客户</div>
+        <div class="table_cell" data-title="客户"><%= link_to rec.cname, customer_path(rec.id) %></div>
+      </div>
+      <div class='table_small'>
+        <div class='table_cell'>应收</div>
+        <div class="table_cell numeric" data-title="应收"><%= de.to_f.round(2) %></div>
+      </div>
+      <div class='table_small'>
+        <div class='table_cell'>已收</div>
+        <div class="table_cell numeric" data-title="已收"><%= cr.to_f.round(2) %></div>
+      </div>
+      <div class='table_small'>
+        <div class='table_cell'>坏账</div>
+        <div class="table_cell numeric" data-title="坏账"><%= bad.to_f.round(2) %></div>
+      </div>
+      <div class='table_small'>
+        <div class='table_cell'>未收</div>
+        <div class="table_cell numeric" data-title="未收" <% if remain < 0 %> style="color:red" <% end %> ><%= remain.to_f.round(2) %></div>
+      </div>
+    </div>
   <% end %>
 
-  </tbody>
-</table>
+</div>

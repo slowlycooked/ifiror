@@ -73,86 +73,125 @@
 
 <br>
 
-<div class="divTable">
-  <div class="divTableBody">
-    <div class="sumTable">
-      <div class="divTableCell">客户名称</div>
-      <div class="divTableCell">总应收</div>
-      <div class="divTableCell">总已收</div>
-      <div class="divTableCell">总坏账</div>
-      <div class="divTableCell">总未收</div>
+<div class="table sumTable">
+  <div class="theader">
+    <div class="table_header">客户名称</div>
+    <div class="table_header">总应收</div>
+    <div class="table_header">总已收</div>
+    <div class="table_header">总坏账</div>
+    <div class="table_header">总未收</div>
+  </div>
+  <div class="table_row">
+    <div class='table_small'>
+      <div class='table_cell'>客户名称</div>
+      <div class="table_cell head_sum" data-title="客户名称"><%= @customer.cname %></div>
     </div>
-    <div class="divTableRow">
-      <div class="divTableCell head_sum" data-title="客户名称"><%= @customer.cname %></div>
-      <div class="divTableCell head_sum" data-title="应收"><%= @debit_sum %></div>
-      <div class="divTableCell head_sum" data-title="已收"><%= @credit_sum %></div>
-      <div class="divTableCell head_sum" data-title="坏账"><%= @bad_sum %></div>
+    <div class='table_small'>
+      <div class='table_cell sumTable'>总应收</div>
+      <div class="table_cell head_sum" data-title="应收"><%= @debit_sum %></div>
+    </div>
+    <div class='table_small'>
+      <div class='table_cell'>总已收</div>
+      <div class="table_cell head_sum" data-title="已收"><%= @credit_sum %></div>
+    </div>
+    <div class='table_small'>
+      <div class='table_cell'>总坏账</div>
+      <div class="table_cell head_sum" data-title="坏账"><%= @bad_sum %></div>
+    </div>
+    <div class='table_small'>
+      <div class='table_cell'>总未收</div>
       <% if @remain_sum < 0 %>
-        <div class="divTableCell head_sum" style="color:red" data-title="未收"><%= @remain_sum %></div>
+        <div class="table_cell head_sum" style="color:red" data-title="未收"><%= @remain_sum %></div>
       <% else %>
-        <div class="divTableCell head_sum" data-title="未收"><%= @remain_sum %></div>
+        <div class="table_cell head_sum" data-title="未收"><%= @remain_sum %></div>
       <% end %>
     </div>
   </div>
 </div>
-<br>
 
-<div class="divTable">
-  <div class="divTableBody">
-    <div class="divTableHeading">
-      <div class="divTableCell">日期</div>
-      <div class="divTableCell">应收</div>
-      <div class="divTableCell">已收</div>
-      <div class="divTableCell">坏账</div>
-      <div class="divTableCell">未收</div>
-      <div class="divTableCell" style="text-align:left">备注</div>
+
+
+<div class="table listTable">
+  <div class="theader">
+    <div class="table_header">日期</div>
+    <div class="table_header">应收</div>
+    <div class="table_header">已收</div>
+    <div class="table_header">坏账</div>
+    <div class="table_header">未收</div>
+    <div class="table_header">备注</div>
+    <% if current_tenant.role == 'edit' or current_tenant.role == 'admin' then %>
+      <div class="table_header"></div>
+      <div class="table_header"></div>
+    <% end %>
+  </div>
+
+
+  <% @records.each do |record|
+    remain = (record.credit.to_f - record.debit.to_f + record.bad.to_f).round(2)
+  %>
+    <div class="table_row">
+      <div class='table_small'>
+        <div class='table_cell'>日期</div>
+        <div class="table_cell" data-title="日期"><%= record.updated_at.strftime("%Y/%m/%d") %></div>
+      </div>
+      <div class='table_small'>
+        <div class='table_cell'>应收</div>
+        <div class="table_cell numeric" data-title="应收"><%= record.debit %></div>
+      </div>
+      <div class='table_small'>
+        <div class='table_cell'>已收</div>
+        <div class="table_cell numeric" data-title="已收"><%= record.credit %></div>
+      </div>
+      <div class='table_small'>
+        <div class='table_cell'>坏账</div>
+        <div class="table_cell numeric" data-title="坏账"><%= record.bad %></div>
+      </div>
+      <div class='table_small'>
+        <div class='table_cell'>未收</div>
+        <% if remain < 0 %>
+          <div class="table_cell numeric" style="color:#ff0000" data-title="未收"><%= remain %></div>
+        <% else %>
+          <div class="table_cell numeric" data-title="未收"><%= remain %></div>
+        <% end %>
+      </div>
+      <div class='table_small'>
+        <div class='table_cell'>备注</div>
+        <div class="table_cell" style="text-align: left; padding-left: 15px" data-title="备注">
+          <%= (!record.comment.nil? and !record.comment.blank?) ? record.comment : ' 无 ' %>
+        </div>
+      </div>
+
       <% if current_tenant.role == 'edit' or current_tenant.role == 'admin' then %>
-        <div class="divTableCell"></div>
-        <div class="divTableCell">
+        <div class='table_small'>
+          <div class='table_cell'></div>
+          <div class="table_cell"><%= link_to '编辑', edit_customer_record_path(record.customer_id, record) %></div>
+        </div>
+        <div class='table_small'>
+          <div class='table_cell'></div>
+          <div class="table_cell">
+            <%= link_to '删除', customer_record_path(record.customer, record), method: :delete, data: { confirm: '确定删除吗？' } %>
+          </div>
         </div>
       <% end %>
     </div>
-
-
-
-
-    <% @records.each do |record|
-      remain = (record.credit.to_f - record.debit.to_f + record.bad.to_f).round(2)
-    %>
-      <div class="divTableRow">
-        <div class="divTableCell numeric" data-title="日期"><%= record.updated_at.strftime("%Y/%m/%d") %></div>
-        <div class="divTableCell numeric" data-title="应收"><%= record.debit %></div>
-        <div class="divTableCell numeric" data-title="已收"><%= record.credit %></div>
-        <div class="divTableCell numeric" data-title="坏账"><%= record.bad %></div>
-        <% if remain < 0 %>
-          <div class="divTableCell numeric" style="color:red" data-title="未收"><%= remain %></div>
-        <% else %>
-          <div class="divTableCell numeric" data-title="未收"><%= remain %></div>
-        <% end %>
-        <div class="divTableCell comment" data-title="备注"><%= (!record.comment.nil? and !record.comment.blank?) ? record.comment : '无' %></div>
-        <% if current_tenant.role == 'edit' or current_tenant.role == 'admin' then %>
-        <div class="divTableCell"><%= link_to '编辑', edit_customer_record_path(record.customer_id, record) %></div>
-
-          <div class="divTableCell">
-            <%= link_to '删除', customer_record_path(record.customer, record), method: :delete, data: { confirm: '确定删除吗？' } %>
-          </div>
-        <% end %>
-      </div>
-    <% end %>
-  </div>
+  <% end %>
 </div>
-<br><br>
-<% if current_tenant.role == 'edit' or current_tenant.role == 'admin' then %>
-  <div class="row">
+</div>
+
+<br/><br/>
+<div class="table">
+  <% if current_tenant.role == 'edit' or current_tenant.role == 'admin' then %>
+    <div class="row">
+      <div class="col-xs-6">
+        <%= link_to '编辑客户信息', edit_customer_path %>
+      </div>
+  <% end %>
+  <% if current_tenant.role == 'admin' then %>
+
     <div class="col-xs-6">
-      <%= link_to '编辑客户信息', edit_customer_path %>
+      <%= link_to '删除客户', customer_path, method: :delete, data: { confirm: '确定删除客户吗？将清除所有的信息' } %>
     </div>
-<% end %>
-<% if current_tenant.role == 'admin' then %>
+    </div>
 
-  <div class="col-xs-6">
-    <%= link_to '删除客户', customer_path, method: :delete, data: { confirm: '确定删除客户吗？将清除所有的信息' } %>
-  </div>
-  </div>
-
-<% end %>
+  <% end %>
+</div>
