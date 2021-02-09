@@ -122,62 +122,99 @@
 <br>
 <br>
 
-<div class="divTable ">
-  <div class="divTableBody">
-    <div class="sumTable">
-      <div class="divTableCell">费项</div>
-      <div class="divTableCell">收入</div>
-      <div class="divTableCell">支出</div>
-      <div class="divTableCell">余额</div>
+
+
+
+<div class="table sumTable">
+  <div class="theader">
+    <div class="table_header">费项</div>
+    <div class="table_header">收入</div>
+    <div class="table_header">支出</div>
+    <div class="table_header">余额</div>
+  </div>
+  <div class="table_row">
+    <div class='table_small'>
+      <div class='table_cell'>费项</div>
+      <div class="table_cell"><%= @fee.fee_name %></div>
     </div>
-    <div class="divTableRow">
-      <div class="head_sum divTableCell" data-title="费项"><%= @fee.fee_name %></div>
-      <div class="head_sum divTableCell" data-title="收入"><%= @credit_sum.round(2) %></div>
-      <div class="head_sum divTableCell" data-title="支出"><%= @debit_sum.round(2) %></div>
-      <div class="head_sum divTableCell" data-title="余额"><%= (@credit_sum - @debit_sum).round(2) %></div>
+    <div class='table_small'>
+      <div class='table_cell'>收入</div>
+      <div class="table_cell numeric"><%= @credit_sum.round(2) %></div>
+    </div>
+    <div class='table_small'>
+      <div class='table_cell'>支出</div>
+      <div class="table_cell numeric"><%= @debit_sum.to_f.round(2) %></div>
+    </div>
+    <div class='table_small'>
+      <div class='table_cell'>余额</div>
+      <div class="table_cell numeric"
+           <% if @credit_sum - @debit_sum < 0 %> style="color:red"
+           <% end %> >
+        <%= (@credit_sum - @debit_sum).to_f.round(2) %>
+      </div>
     </div>
   </div>
 </div>
 
-<br>
-
-<div class="divTable">
-  <div class="divTableBody">
-    <div class="divTableHeading">
-      <div class="divTableCell">日期</div>
-      <div class="divTableCell">收入</div>
-      <div class="divTableCell">支出-数量</div>
-      <div class="divTableCell">支出-单价</div>
-      <div class="divTableCell">支出-金额</div>
-      <div class="divTableCell">备注</div>
-      <% if current_tenant.role == 'admin' or current_tenant.role == 'edit' then %>
-        <div class="divTableCell"></div>
-        <div class="divTableCell"></div>
-      <% end %>
-    </div>
-
-    <% @records.each do |record| %>
-      <div class="divTableRow">
-        <div class="divTableCell numeric" data-title="日期">
-          <%= record.updated_at.strftime('%Y/%m/%d') %>
-        </div>
-        <div class="divTableCell numeric" data-title="收入"><%= record.credit %></div>
-        <div class="divTableCell numeric" data-title="支出-数量"><%= record.quantity %></div>
-        <div class="divTableCell numeric" data-title="支出-单价"><%= record.price %></div>
-        <div class="divTableCell numeric" data-title="支出-金额"><%= record.debit %></div>
-        <div class="divTableCell comment" data-title="备注"><%= (!record.comment.nil? and !record.comment.blank?) ? record.comment : '无' %></div>
-        <% if current_tenant.role == 'admin' or current_tenant.role == 'edit' then %>
-          <div class="divTableCell ">
-            <%= link_to '编辑', edit_book_fee_fee_record_path(@book.id, record.fee_id, record) %>
-          </div>
-          <div class="divTableCell ">
-            <%= link_to '删除', book_fee_fee_record_path(@book.id, record.fee_id, record), method: :delete, data: { confirm: '确定删除吗？' } %>
-          </div>
-
-        <% end %>
-      </div>
+<br/>
+<div class="table listTable">
+  <div class="theader">
+    <div class="table_header">日期</div>
+    <div class="table_header">收入</div>
+    <div class="table_header">支出-数量</div>
+    <div class="table_header">支出-单价</div>
+    <div class="table_header">支出-金额</div>
+    <div class="table_header">备注</div>
+    <% if current_tenant.role == 'admin' or current_tenant.role == 'edit' then %>
+        <div class="table_header"></div>
+        <div class="table_header"></div>
     <% end %>
   </div>
+  <% @records.each do |record| %>
+    <div class="table_row">
+      <div class='table_small'>
+        <div class='table_cell'>日期</div>
+        <div class="table_cell"><%= record.updated_at.strftime('%Y/%m/%d') %></div>
+      </div>
+      <div class='table_small'>
+        <div class='table_cell'>收入</div>
+        <div class="table_cell numeric"><%= record.credit %></div>
+      </div>
+      <div class='table_small'>
+        <div class='table_cell'>支出-数量</div>
+        <div class="table_cell numeric"><%= record.quantity %></div>
+      </div>
+      <div class='table_small'>
+        <div class='table_cell'>支出-单价</div>
+        <div class="table_cell numeric"><%= record.price %></div>
+      </div>
+      <div class='table_small'>
+        <div class='table_cell'>支出-金额</div>
+        <div class="table_cell numeric"><%= record.debit %></div>
+      </div>
+      <div class='table_small'>
+        <div class='table_cell'>备注</div>
+        <div class="table_cell numeric" style="text-align: left; padding-left: 15px">
+          <%= (!record.comment.nil? and !record.comment.blank?) ? record.comment : '无' %>
+        </div>
+      </div>
+      <% if current_tenant.role == 'admin' or current_tenant.role == 'edit' then %>
+        <div class='table_small'>
+          <div class='table_cell'></div>
+          <div class="table_cell ">
+            <%= link_to '编辑', edit_book_fee_fee_record_path(@book.id, record.fee_id, record) %>
+          </div>
+        </div>
+        <div class='table_small'>
+          <div class='table_cell'></div>
+          <div class="table_cell ">
+            <%= link_to '删除', book_fee_fee_record_path(@book.id, record.fee_id, record), method: :delete, data: { confirm: '确定删除吗？' } %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
 </div>
 <br><br>
 

@@ -70,49 +70,61 @@
 <div id="orders_chart"></div>
 
 
-<table class="table table-responsive table-striped table-hover table-condensed table-bordered " style="border: 2px solid orange">
-  <thead>
-  <tr class="sumTable">
-    <th>总收入</th>
-    <th>总支出</th>
-    <th>总余额</th>
+<div class="table sumTable">
+  <div class="theader">
+    <div class="table_header">总收入</div>
+    <div class="table_header">总支出</div>
+    <div class="table_header">总余额</div>
+  </div>
+  <div class="table_row">
+    <div class='table_small'>
+      <div class='table_cell'>总收入</div>
+      <div class="table_cell head_sum" ><%= @credit_sum.to_f.round(2) %></div>
+    </div>
+    <div class='table_small'>
+      <div class='table_cell'>总支出</div>
+      <div class="table_cell head_sum" ><%= @debit_sum.to_f.round(2) %></div>
+    </div>
+    <div class='table_small'>
+      <div class='table_cell'>总余额</div>
+      <div class="table_cell head_sum" <% if @credit_sum - @debit_sum < 0%> style="color:red" <% end %> >
+        <%= (@credit_sum - @debit_sum).to_f.round(2) %>
+      </div>
+    </div>
+  </div>
+</div>
 
-  </tr>
-  </thead>
-  <tbody>
-  <tr>
-    <td class="head_sum" data-title="总收入"><%= @credit_sum.to_f.round(2) %></td>
-    <td class="head_sum" data-title="总支出"><%= @debit_sum.to_f.round(2) %></td>
-    <td class="head_sum" data-title="总余额"><%= (@credit_sum - @debit_sum).to_f.round(2) %></td>
-  </tr>
-  </tbody>
-</table>
-
-<table class="table table-responsive table-striped table-hover table-condensed table-bordered ">
-  <thead>
-  <tr>
-    <th>费项</th>
-    <th>收入</th>
-    <th>支出</th>
-  </tr>
-  </thead>
-
-  <tbody>
+<div class="table listTable">
+  <div class="theader">
+    <div class="table_header">费项</div>
+    <div class="table_header">收入</div>
+    <div class="table_header">支出</div>
+  </div>
   <%
     @group_by_fee.each do |rec|
       de = rec.debit.to_f.round(2)
       cr = rec.credit.to_f.round(2)
       #cr = rec.fee_records.where('left(fee_records.updated_at,4) =?', session[:current_year]).sum('credit')
   %>
-    <tr>
-      <td data-title="费项"><%= link_to rec.fee_name, book_fee_path(rec.book_id, rec.id) %></td>
-      <td class="numeric" data-title="收入"><%= cr %></td>
-      <td class="numeric" data-title="支出"><%= de %></td>
-    </tr>
+  <div class="table_row">
+    <div class='table_small'>
+      <div class='table_cell'>费项</div>
+      <div class="table_cell"><%= link_to rec.fee_name, book_fee_path(rec.book_id, rec.id) %></div>
+    </div>
+    <div class='table_small'>
+      <div class='table_cell'>收入</div>
+      <div class="table_cell numeric"><%= cr %></div>
+    </div>
+    <div class='table_small'>
+      <div class='table_cell'>支出</div>
+      <div class="table_cell numeric"><%= de %></div>
+    </div>
+  </div>
   <% end %>
 
-  </tbody>
-</table>
+</div>
+
+
 <% if current_tenant.role == 'admin' then %>
   <%= link_to '删除账本', book_path, method: :delete, data: { confirm: '确定删除吗？将清除该账本所有信息！！' } %>
 <% end %>

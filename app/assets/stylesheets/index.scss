@@ -196,7 +196,9 @@
   display: table-cell;
   #border: 1px solid #8c8c8c;
 }
-
+.table_row:hover{
+  background-color: #dbd566;
+}
 .table_row > .table_small > .table_cell:nth-child(odd) {
   display: none;
   background: #808080;
