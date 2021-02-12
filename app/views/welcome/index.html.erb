@@ -41,8 +41,8 @@
         </li>
       <% end %>
       <% if current_tenant.role == 'admin' then %>
-
         <li> <%= link_to '管理权限', tenants_roles_path %></li>
+<!--        <li> <%#= link_to "注册用户", new_tenant_registration_path %> </li>-->
       <% end %>
 
     </ul>

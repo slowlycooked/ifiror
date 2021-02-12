@@ -29,10 +29,10 @@
 <div class="table sumTable">
   <div class="theader ">
     <div class="table_header">公司</div>
-    <div class="table_header">应收</div>
-    <div class="table_header">已收</div>
-    <div class="table_header">坏账</div>
-    <div class="table_header">未收</div>
+    <div class="table_header">总应收</div>
+    <div class="table_header">总已收</div>
+    <div class="table_header">总坏账</div>
+    <div class="table_header">总未收</div>
   </div>
 
 
@@ -73,7 +73,6 @@
 <div class="table listTable">
   <div class="theader">
     <div class="table_header">公司</div>
-    <div class="table_header">客户号</div>
     <div class="table_header">客户</div>
     <div class="table_header">应收</div>
     <div class="table_header">已收</div>
@@ -95,12 +94,8 @@
         <div class="table_cell" data-title="公司"><%= rec.name %></div>
       </div>
       <div class='table_small'>
-        <div class='table_cell'>客户号</div>
-        <div class="table_cell" data-title="客户号"><%= rec.id %></div>
-      </div>
-      <div class='table_small'>
         <div class='table_cell'>客户</div>
-        <div class="table_cell" data-title="客户"><%= link_to rec.cname, customer_path(rec.id) %></div>
+        <div class="table_cell" data-title="客户"><%= link_to rec.id.to_s+"."+rec.cname, customer_path(rec.id) %></div>
       </div>
       <div class='table_small'>
         <div class='table_cell'>应收</div>
