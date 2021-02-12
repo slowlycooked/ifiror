@@ -84,7 +84,7 @@
   <div class="table_row">
     <div class='table_small'>
       <div class='table_cell'>客户名称</div>
-      <div class="table_cell head_sum" data-title="客户名称"><%= @customer.cname %></div>
+      <div class="table_cell head_sum" data-title="客户名称"><%= @customer.id.to_s+"."+@customer.cname %></div>
     </div>
     <div class='table_small'>
       <div class='table_cell sumTable'>总应收</div>
