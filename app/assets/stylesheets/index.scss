@@ -194,7 +194,7 @@
 
 .table_small {
   display: table-cell;
-  #border: 1px solid #8c8c8c;
+  border-bottom: #ccc 1px solid;
 }
 .table_row:hover{
   background-color: #dbd566;
@@ -211,7 +211,10 @@
   padding-top: 3px;
   padding-bottom: 3px;
   color: #5b5b5b;
-  border-bottom: #ccc 1px solid;
+  max-width: 500px;
+  margin: auto;
+
+
 }
 
 .table_row > .table_small:first-child > .table_cell {
@@ -256,7 +259,7 @@
   }
   .table_cell {
     display: table-cell;
-    width: 50%;
+    border-bottom: #ccc 1px solid;
   }
   .table_row {
     display: table;
